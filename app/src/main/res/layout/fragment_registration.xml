@@ -114,9 +114,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:fontFamily="@font/montserrat"
                 android:textSize="15sp"
-                android:textFontWeight="600"/>
+                android:textFontWeight="600" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/hide_show_password_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,7 +124,8 @@
                 android:src="@drawable/hide_password"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@null"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
