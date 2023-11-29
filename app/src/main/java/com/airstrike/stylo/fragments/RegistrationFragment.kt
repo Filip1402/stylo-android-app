@@ -3,6 +3,7 @@ package com.airstrike.stylo.fragments
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +13,15 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.airstrike.core.authentification.network.ResponseListener
+import com.airstrike.core.authentification.network.models.ErrorResponseBody
 import com.airstrike.stylo.R
 import com.airstrike.stylo.helpers.InputValidator
 import com.airstrike.stylo.models.Customer
+import com.airstrike.web_services.models.RegistrationBody
+import com.airstrike.web_services.models.responses.RegisteredUser
+import com.airstrike.web_services.request_handler.RegistrationRequestHandler
+
 
 class RegistrationFragment : Fragment() {
 
@@ -57,7 +64,32 @@ class RegistrationFragment : Fragment() {
         btnRegister.setOnClickListener{
             if(checkIfDataIsValid()) {
                 var customer = getCustomerFromInput()
-                TODO("send registration request to server")
+                val reqBody = RegistrationBody(
+                    customer.FirstName,
+                    customer.LastName,
+                    customer.Email,
+                    customer.PhoneNum,
+                    customer.Password
+                )
+                var registrationRequestListener = RegistrationRequestHandler(reqBody)
+                registrationRequestListener.sendRequest(object : ResponseListener<RegisteredUser>{
+                    override fun onSuccess(response: RegisteredUser) {
+                        Log.i("Registered user",response.customer.toString())
+                        Toast.makeText(context, "Succesfuly registered, activate your acount using code on your email!!!", Toast.LENGTH_LONG).show()
+
+                    }
+
+                    override fun onErrorResponse(response: ErrorResponseBody) {
+                        Toast.makeText(context, "Registration error:" + response.Error,Toast.LENGTH_LONG).show()
+                        response.Error?.let { it1 -> Log.i("Registration", it1) }
+                    }
+
+                    override fun onFailure(t: Throwable) {
+                        Log.e("RegistrationERROR", t.message.toString())
+
+                    }
+                })
+
             }
         }
     }
@@ -88,7 +120,6 @@ class RegistrationFragment : Fragment() {
         val isLastNameValid = InputValidator.isNotEmpty(etLastName.text.toString())
         val isPasswordValid = InputValidator.isNotEmpty(etPassword.text.toString())
         return if(isFirstNameValid && isLastNameValid && isEmailValid && isPhoneValid && isPasswordValid) {
-            Toast.makeText(context, "User input is valid!!!", Toast.LENGTH_LONG).show() //just for testing remove after
             true
         }else {
             Toast.makeText(context, "User input is invalid!!!", Toast.LENGTH_LONG).show()//just for testing remove after
