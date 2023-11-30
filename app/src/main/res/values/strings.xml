@@ -16,5 +16,6 @@
     <string name="log_in">Sign in</string>
     <string name="dont_have_account">Don\'t have an account?</string>
     <string name="sign_up_underlined"><u>Sign up.</u></string>
+    <string name="successful_log_in">Logged in</string>
 
 </resources>

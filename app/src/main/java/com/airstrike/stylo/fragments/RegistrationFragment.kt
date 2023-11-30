@@ -1,6 +1,8 @@
 package com.airstrike.stylo.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -61,7 +63,7 @@ class RegistrationFragment : Fragment() {
             PasswordManager.changePasswordDisplayMode(etPassword,btnShowHidePassword)
         }
         btnLoginRedirect.setOnClickListener{
-            (requireActivity() as AuthenticationActivity).loadFragment(LoginFragment())
+            redirectToLogin()
         }
         btnRegister.setOnClickListener{
             if(checkIfDataIsValid()) {
@@ -77,13 +79,16 @@ class RegistrationFragment : Fragment() {
                 registrationRequestListener.sendRequest(object : ResponseListener<RegisteredUser>{
                     override fun onSuccess(response: RegisteredUser) {
                         Log.i("Registered user",response.customer.toString())
-                        Toast.makeText(context, R.string.succesful_sign_up, Toast.LENGTH_LONG).show()
 
+                        Toast.makeText(context, R.string.succesful_sign_up, Toast.LENGTH_LONG).show()
+                        Handler(Looper.getMainLooper()).postDelayed({redirectToLogin()},1000)
                     }
 
                     override fun onErrorResponse(response: ErrorResponseBody) {
-                        Toast.makeText(context, response.Error,Toast.LENGTH_LONG).show()
-                        response.Error?.let { it1 -> Log.i("Registration", it1) }
+
+                        response.error?.let { it1 ->
+                            Log.i("Registration", it1)
+                            Toast.makeText(context, response.error,Toast.LENGTH_LONG).show()}
                     }
 
                     override fun onFailure(t: Throwable) {
@@ -95,6 +100,11 @@ class RegistrationFragment : Fragment() {
             }
         }
     }
+
+    private fun redirectToLogin() {
+        (requireActivity() as AuthenticationActivity).loadFragment(LoginFragment())
+    }
+
     private fun getCustomerFromInput(): Customer {
         return Customer(
             etFirstName.text.toString(),

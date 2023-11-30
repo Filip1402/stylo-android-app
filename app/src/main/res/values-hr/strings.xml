@@ -16,4 +16,5 @@
     <string name="log_in">Prijavi se</string>
     <string name="dont_have_account">Još nemate račun?</string>
     <string name="sign_up_underlined"><u>Registriraj se</u></string>
+    <string name="successful_log_in">Prijavljeni ste</string>
 </resources>
