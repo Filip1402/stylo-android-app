@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stylo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Ovo je prazni fragment</string>
+    <string name="name_hint">Ime</string>
+    <string name="create_account">Izradi račun</string>
+    <string name="last_name_hint">Prezime</string>
+    <string name="phone_number_hint">Broj mobitela</string>
+    <string name="password_hint">Lozinka</string>
+    <string name="register_button_text">Registriraj se</string>
+    <string name="already_have_an_account">Već imaš račun?</string>
+    <string name="sign_in"><u>Prijavi se.</u></string>
+    <string name="succesful_sign_up">Registriran, aktivirajte vaš račun kodom sa emaila</string>
+</resources>
