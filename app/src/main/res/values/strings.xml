@@ -11,4 +11,5 @@
     <string name="register_button_text">Register</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in"><u>Sign in.</u></string>
+    <string name="succesful_sign_up">Registered, activate your account using code on your email!!!</string>
 </resources>

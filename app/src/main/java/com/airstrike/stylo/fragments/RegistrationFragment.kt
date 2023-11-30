@@ -75,12 +75,12 @@ class RegistrationFragment : Fragment() {
                 registrationRequestListener.sendRequest(object : ResponseListener<RegisteredUser>{
                     override fun onSuccess(response: RegisteredUser) {
                         Log.i("Registered user",response.customer.toString())
-                        Toast.makeText(context, "Succesfuly registered, activate your acount using code on your email!!!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, R.string.succesful_sign_up, Toast.LENGTH_LONG).show()
 
                     }
 
                     override fun onErrorResponse(response: ErrorResponseBody) {
-                        Toast.makeText(context, "Registration error:" + response.Error,Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, response.Error,Toast.LENGTH_LONG).show()
                         response.Error?.let { it1 -> Log.i("Registration", it1) }
                     }
 
