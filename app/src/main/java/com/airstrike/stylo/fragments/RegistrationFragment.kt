@@ -18,6 +18,7 @@ import com.airstrike.core.authentification.network.models.ErrorResponseBody
 import com.airstrike.stylo.AuthenticationActivity
 import com.airstrike.stylo.R
 import com.airstrike.stylo.helpers.InputValidator
+import com.airstrike.stylo.helpers.PasswordManager
 import com.airstrike.stylo.models.Customer
 import com.airstrike.web_services.models.RegistrationBody
 import com.airstrike.web_services.models.responses.RegisteredUser
@@ -57,7 +58,7 @@ class RegistrationFragment : Fragment() {
         btnRegister = view.findViewById(R.id.register_btn)
 
         btnShowHidePassword.setOnClickListener{
-            changePasswordDisplayMode()
+            PasswordManager.changePasswordDisplayMode(etPassword,btnShowHidePassword)
         }
         btnLoginRedirect.setOnClickListener{
             (requireActivity() as AuthenticationActivity).loadFragment(LoginFragment())
@@ -102,17 +103,8 @@ class RegistrationFragment : Fragment() {
             etPhoneNum.text.toString(),
             etPassword.text.toString())
     }
-    private fun changePasswordDisplayMode()
-    {
-        if(etPassword.transformationMethod == HideReturnsTransformationMethod.getInstance()) {
-            etPassword.transformationMethod = PasswordTransformationMethod.getInstance()
-            btnShowHidePassword.setImageResource(R.drawable.hide_password)
-        }
-        else {
-            etPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-            btnShowHidePassword.setImageResource(R.drawable.show_password)
-        }
-    }
+
+
     private fun checkIfDataIsValid(): Boolean
     {
         val isEmailValid = InputValidator.validateEmail(etEmail.text.toString())

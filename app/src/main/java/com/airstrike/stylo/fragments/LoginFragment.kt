@@ -9,8 +9,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import com.airstrike.stylo.AuthenticationActivity
 import com.airstrike.stylo.R
+import com.airstrike.stylo.helpers.InputValidator
+import com.airstrike.stylo.helpers.PasswordManager
 
 class LoginFragment : Fragment() {
 
@@ -43,5 +46,26 @@ class LoginFragment : Fragment() {
         btnRegisterRedirect.setOnClickListener {
             (requireActivity() as AuthenticationActivity).loadFragment(RegistrationFragment())
         }
+
+        btnShowHidePassword.setOnClickListener{
+            PasswordManager.changePasswordDisplayMode(etPassword,btnShowHidePassword)
+        }
+
+        btnLogin.setOnClickListener {
+            val email = etEmail.text.toString()
+            val password = etPassword.text.toString()
+            if (checkIfRequiredDataIsEntered(email,password))
+            {
+                TODO("Call login service on backend")
+            }
+            else
+            {
+                Toast.makeText(context, "Missing data, fill all fields than try again!!!",Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+    private fun checkIfRequiredDataIsEntered(email: String, password: String): Boolean {
+        return InputValidator.isNotEmpty(email) && InputValidator.isNotEmpty(password)
+    }
+
 }
