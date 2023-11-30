@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.airstrike.core.authentification.network.ResponseListener
 import com.airstrike.core.authentification.network.models.ErrorResponseBody
+import com.airstrike.stylo.AuthenticationActivity
 import com.airstrike.stylo.R
 import com.airstrike.stylo.helpers.InputValidator
 import com.airstrike.stylo.models.Customer
@@ -59,7 +60,7 @@ class RegistrationFragment : Fragment() {
             changePasswordDisplayMode()
         }
         btnLoginRedirect.setOnClickListener{
-            TODO("Implement login fragment redirect")
+            (requireActivity() as AuthenticationActivity).loadFragment(LoginFragment())
         }
         btnRegister.setOnClickListener{
             if(checkIfDataIsValid()) {
