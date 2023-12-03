@@ -2,7 +2,7 @@ package com.airstrike.web_services.models.responses
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisteredUser(
+open class RegisteredUser(
     @SerializedName("customer") var customer: Customer? = null,
 
 )

@@ -1,6 +1,8 @@
 package com.airstrike.stylo.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -15,8 +17,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.airstrike.core.authentification.network.ResponseListener
 import com.airstrike.core.authentification.network.models.ErrorResponseBody
+import com.airstrike.stylo.AuthenticationActivity
 import com.airstrike.stylo.R
 import com.airstrike.stylo.helpers.InputValidator
+import com.airstrike.stylo.helpers.PasswordManager
 import com.airstrike.stylo.models.Customer
 import com.airstrike.web_services.models.RegistrationBody
 import com.airstrike.web_services.models.responses.RegisteredUser
@@ -56,10 +60,10 @@ class RegistrationFragment : Fragment() {
         btnRegister = view.findViewById(R.id.register_btn)
 
         btnShowHidePassword.setOnClickListener{
-            changePasswordDisplayMode()
+            PasswordManager.changePasswordDisplayMode(etPassword,btnShowHidePassword)
         }
         btnLoginRedirect.setOnClickListener{
-            TODO("Implement login fragment redirect")
+            redirectToLogin()
         }
         btnRegister.setOnClickListener{
             if(checkIfDataIsValid()) {
@@ -75,13 +79,16 @@ class RegistrationFragment : Fragment() {
                 registrationRequestListener.sendRequest(object : ResponseListener<RegisteredUser>{
                     override fun onSuccess(response: RegisteredUser) {
                         Log.i("Registered user",response.customer.toString())
-                        Toast.makeText(context, R.string.succesful_sign_up, Toast.LENGTH_LONG).show()
 
+                        Toast.makeText(context, R.string.succesful_sign_up, Toast.LENGTH_LONG).show()
+                        Handler(Looper.getMainLooper()).postDelayed({redirectToLogin()},1000)
                     }
 
                     override fun onErrorResponse(response: ErrorResponseBody) {
-                        Toast.makeText(context, response.Error,Toast.LENGTH_LONG).show()
-                        response.Error?.let { it1 -> Log.i("Registration", it1) }
+
+                        response.error?.let { it1 ->
+                            Log.i("Registration", it1)
+                            Toast.makeText(context, response.error,Toast.LENGTH_LONG).show()}
                     }
 
                     override fun onFailure(t: Throwable) {
@@ -93,6 +100,11 @@ class RegistrationFragment : Fragment() {
             }
         }
     }
+
+    private fun redirectToLogin() {
+        (requireActivity() as AuthenticationActivity).loadFragment(LoginFragment())
+    }
+
     private fun getCustomerFromInput(): Customer {
         return Customer(
             etFirstName.text.toString(),
@@ -101,17 +113,8 @@ class RegistrationFragment : Fragment() {
             etPhoneNum.text.toString(),
             etPassword.text.toString())
     }
-    private fun changePasswordDisplayMode()
-    {
-        if(etPassword.transformationMethod == HideReturnsTransformationMethod.getInstance()) {
-            etPassword.transformationMethod = PasswordTransformationMethod.getInstance()
-            btnShowHidePassword.setImageResource(R.drawable.hide_password)
-        }
-        else {
-            etPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-            btnShowHidePassword.setImageResource(R.drawable.show_password)
-        }
-    }
+
+
     private fun checkIfDataIsValid(): Boolean
     {
         val isEmailValid = InputValidator.validateEmail(etEmail.text.toString())

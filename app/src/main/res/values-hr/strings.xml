@@ -12,4 +12,9 @@
     <string name="already_have_an_account">Već imaš račun?</string>
     <string name="sign_in"><u>Prijavi se.</u></string>
     <string name="succesful_sign_up">Registriran, aktivirajte vaš račun kodom sa emaila</string>
+    <string name="existing_user">Postojeći korisnik</string>
+    <string name="log_in">Prijavi se</string>
+    <string name="dont_have_account">Još nemate račun?</string>
+    <string name="sign_up_underlined"><u>Registriraj se</u></string>
+    <string name="successful_log_in">Prijavljeni ste</string>
 </resources>
