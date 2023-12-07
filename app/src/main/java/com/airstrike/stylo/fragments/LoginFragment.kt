@@ -15,14 +15,11 @@ import com.airstrike.core.authentification.network.ResponseListener
 import com.airstrike.core.authentification.network.models.ErrorResponseBody
 import com.airstrike.stylo.AuthenticationActivity
 import com.airstrike.stylo.R
-import com.airstrike.stylo.helpers.InputValidator
-import com.airstrike.stylo.helpers.PasswordManager
+import com.airstrike.core.authentification.helpers.InputValidator
+import com.airstrike.core.authentification.helpers.PasswordManager
 import com.airstrike.web_services.models.LoginBody
-import com.airstrike.web_services.models.RegistrationBody
 import com.airstrike.web_services.models.responses.LoggedInUser
-import com.airstrike.web_services.models.responses.RegisteredUser
 import com.airstrike.web_services.request_handler.LoginRequestHandler
-import com.airstrike.web_services.request_handler.RegistrationRequestHandler
 
 class LoginFragment : Fragment() {
 

@@ -1,0 +1,14 @@
+<resources>
+    <string name="name_hint">First name</string>
+    <string name="create_account">Create account</string>
+    <string name="last_name_hint">Last name</string>
+    <string name="email_hint" translatable="false">Email</string>
+    <string name="phone_number_hint">Phone number</string>
+    <string name="password_hint">Password</string>
+    <string name="register_button_text">Register</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="sign_in"><u>Sign in.</u></string>
+    <string name="succesful_sign_up">Registered, activate your account using code on your email!!!</string>
+    <string name="invalid_input_data">Invalid input data, try again!</string>
+
+</resources>

@@ -1,4 +1,4 @@
-package com.airstrike.stylo.helpers
+package com.airstrike.core.authentification.helpers
 
 import android.util.Patterns
 
