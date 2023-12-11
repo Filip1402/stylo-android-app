@@ -1,10 +1,10 @@
-package com.airstrike.stylo.helpers
+package com.airstrike.core.authentification.helpers
 
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.widget.EditText
 import android.widget.ImageButton
-import com.airstrike.stylo.R
+import com.airstrike.core.R
 
 object PasswordManager {
     fun changePasswordDisplayMode(passwordField: EditText, showHidePassword: ImageButton) {
