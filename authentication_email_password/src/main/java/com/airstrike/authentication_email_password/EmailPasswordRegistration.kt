@@ -55,11 +55,11 @@ class EmailPasswordRegistration : RegistrationHandler {
                     override fun onSuccess(response: RegisteredUser) {
                         Log.i("Registered user", response.customer.toString())
                         registrationListener.onSuccessfulRegistration( com.airstrike.core.authentification.RegisteredUser(
-                            etFirstName.text.toString(),
-                            etLastName.text.toString(),
-                            etEmail.text.toString(),
-                            etPhoneNum.text.toString(),
-                            etPassword.text.toString()
+                            response.customer?.email.toString(),
+                            response.customer?.firstName.toString(),
+                            response.customer?.lastName.toString(),
+                            response.customer?.password.toString(),
+                            response.customer?.custom?.fields?.phoneNumber.toString()
                         ))
 
                     }

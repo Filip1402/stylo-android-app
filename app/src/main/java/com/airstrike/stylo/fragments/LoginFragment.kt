@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.airstrike.authentication_email_password.EmailPasswordLogin
+import com.airstrike.authentication_google.GoogleLogin
 import com.airstrike.core.authentification.LoggedInUser
 import com.airstrike.core.authentification.LoginHandler
 import com.airstrike.core.authentification.LoginListener
@@ -18,7 +19,7 @@ class LoginFragment : Fragment(), LoginListener {
 
 
     private lateinit var btnRegisterRedirect : TextView
-    private  var loginHandlers : List<LoginHandler> = listOf(EmailPasswordLogin() )
+    private  var loginHandlers : List<LoginHandler> = listOf(EmailPasswordLogin(),GoogleLogin())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
