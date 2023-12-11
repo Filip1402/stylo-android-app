@@ -10,16 +10,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.airstrike.core.authentification.RegisteredUser
+import com.airstrike.core.authentification.RegistrationHandler
 import com.airstrike.core.authentification.RegistrationListener
 import com.airstrike.registration_email_password.EmailPasswordRegistration
+import com.airstrike.registration_google.GoogleRegistration
 import com.airstrike.stylo.AuthenticationActivity
 import com.airstrike.stylo.R
-import com.airstrike.stylo.models.Customer
 
 
 class RegistrationFragment : Fragment(), RegistrationListener {
 
-    private lateinit var regHanlder : EmailPasswordRegistration
+    private  var regHanlders : List<RegistrationHandler> = listOf(EmailPasswordRegistration(),
+        GoogleRegistration()
+    )
     private lateinit var btnLoginRedirect : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +34,13 @@ class RegistrationFragment : Fragment(), RegistrationListener {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_registration, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        regHanlder = EmailPasswordRegistration()
-        regHanlder.showUIandHandleRegistration(view,view.findViewById(R.id.font),this)
+        regHanlders.forEach { handler->
+            handler.showUIandHandleRegistration(this,view.findViewById(R.id.font),this)
+        }
         btnLoginRedirect = view.findViewById(R.id.sign_in_redirect_btn)
         btnLoginRedirect.setOnClickListener{
             redirectToLogin()

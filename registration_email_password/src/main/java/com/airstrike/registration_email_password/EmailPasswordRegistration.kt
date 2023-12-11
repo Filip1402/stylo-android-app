@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
 import com.airstrike.core.authentification.helpers.InputValidator
 import com.airstrike.core.authentification.helpers.PasswordManager
 import com.airstrike.core.authentification.RegistrationHandler
@@ -29,10 +30,10 @@ class EmailPasswordRegistration : RegistrationHandler {
     private lateinit var btnRegister : Button
 
 
-    override fun showUIandHandleRegistration(parentView : View, container : LinearLayout,registrationListener : RegistrationListener) {
+    override fun showUIandHandleRegistration(fragment: Fragment, container : LinearLayout,registrationListener : RegistrationListener) {
 
         val view =
-            LayoutInflater.from(parentView.context).inflate(R.layout.email_login_registration, null)
+            LayoutInflater.from(fragment.requireContext()).inflate(R.layout.email_login_registration, null)
 
         getUIReferences(view)
         btnShowHidePassword.setOnClickListener {

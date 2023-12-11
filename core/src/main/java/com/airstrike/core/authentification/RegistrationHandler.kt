@@ -1,9 +1,8 @@
 package com.airstrike.core.authentification
 
-
-import android.view.View
 import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
 
 interface RegistrationHandler {
-    fun showUIandHandleRegistration(view : View, container : LinearLayout,registrationListener : RegistrationListener)
+    fun showUIandHandleRegistration(fragment : Fragment, container : LinearLayout,registrationListener : RegistrationListener)
 }
