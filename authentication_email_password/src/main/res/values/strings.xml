@@ -10,5 +10,11 @@
     <string name="sign_in"><u>Sign in.</u></string>
     <string name="succesful_sign_up">Registered, activate your account using code on your email!!!</string>
     <string name="invalid_input_data">Invalid input data, try again!</string>
+    <string name="existing_user">Existing user</string>
+    <string name="log_in">Sign in</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="sign_up_underlined"><u>Sign up.</u></string>
+    <string name="successful_log_in">Logged in</string>
+    <string name="missing_data">Missing data, fill all fields than try again!!!</string>
 
 </resources>

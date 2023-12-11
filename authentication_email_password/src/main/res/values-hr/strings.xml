@@ -10,4 +10,11 @@
     <string name="sign_in"><u>Prijavi se.</u></string>
     <string name="succesful_sign_up">Registriran, aktivirajte vaš račun kodom sa emaila</string>
     <string name="invalid_input_data">Krivi unos, pokušajte ponovno!</string>
+    <string name="existing_user">Postojeći korisnik</string>
+    <string name="log_in">Prijavi se</string>
+    <string name="dont_have_account">Još nemate račun?</string>
+    <string name="sign_up_underlined"><u>Registriraj se</u></string>
+    <string name="successful_log_in">Prijavljeni ste</string>
+    <string name="missing_data">Krivi unos, unesite sve podatke!!!</string>
+
 </resources>

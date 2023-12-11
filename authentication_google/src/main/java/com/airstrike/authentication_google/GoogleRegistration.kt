@@ -1,4 +1,4 @@
-package com.airstrike.registration_google
+package com.airstrike.authentication_google
 
 import android.app.Activity
 import android.content.Intent
@@ -13,6 +13,7 @@ import com.airstrike.core.authentification.RegistrationHandler
 import com.airstrike.core.authentification.RegistrationListener
 import com.airstrike.core.authentification.network.ResponseListener
 import com.airstrike.core.authentification.network.models.ErrorResponseBody
+import com.airstrike.registration_google.R
 import com.airstrike.web_services.models.RegistrationBody
 import com.airstrike.web_services.request_handler.RegistrationRequestHandler
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -38,13 +39,12 @@ class GoogleRegistration : RegistrationHandler {
         registrationListener = listener
 
         val view = LayoutInflater.from(fragment.context).inflate(R.layout.google_registration, null)
-        val container = container
 
         initializeGoogleSignInLauncher(fragment);
         val googleSignInClient = GoogleSignIn.getClient(fragment.requireContext(),gso)
         googleSignInClient.signOut()
-        val account =  GoogleSignIn.getLastSignedInAccount(fragment.requireContext())
 
+        val account =  GoogleSignIn.getLastSignedInAccount(fragment.requireContext())
         if(account  != null)
         {
             handleSignInResult(account)

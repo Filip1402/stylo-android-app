@@ -1,4 +1,4 @@
-package com.airstrike.registration_email_password
+package com.airstrike.authentication_email_password
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +14,7 @@ import com.airstrike.core.authentification.RegistrationHandler
 import com.airstrike.core.authentification.RegistrationListener
 import com.airstrike.core.authentification.network.ResponseListener
 import com.airstrike.core.authentification.network.models.ErrorResponseBody
+import com.airstrike.registration_email_password.R
 import com.airstrike.web_services.models.RegistrationBody
 import com.airstrike.web_services.models.responses.RegisteredUser
 import com.airstrike.web_services.request_handler.RegistrationRequestHandler
@@ -33,7 +34,7 @@ class EmailPasswordRegistration : RegistrationHandler {
     override fun showUIandHandleRegistration(fragment: Fragment, container : LinearLayout,registrationListener : RegistrationListener) {
 
         val view =
-            LayoutInflater.from(fragment.requireContext()).inflate(R.layout.email_login_registration, null)
+            LayoutInflater.from(fragment.requireContext()).inflate(R.layout.email_password_registration, null)
 
         getUIReferences(view)
         btnShowHidePassword.setOnClickListener {
@@ -49,7 +50,7 @@ class EmailPasswordRegistration : RegistrationHandler {
                     etPhoneNum.text.toString(),
                     etPassword.text.toString()
                 )
-                var registrationRequestListener = RegistrationRequestHandler(reqBody)
+                val registrationRequestListener = RegistrationRequestHandler(reqBody)
                 registrationRequestListener.sendRequest(object : ResponseListener<RegisteredUser> {
                     override fun onSuccess(response: RegisteredUser) {
                         Log.i("Registered user", response.customer.toString())
@@ -79,7 +80,6 @@ class EmailPasswordRegistration : RegistrationHandler {
             }
 
         }
-        val container = container
         container.addView(view)
     }
 

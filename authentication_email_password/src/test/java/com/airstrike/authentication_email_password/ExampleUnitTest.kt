@@ -1,4 +1,4 @@
-package com.airstrike.registration_google
+package com.airstrike.authentication_email_password
 
 import org.junit.Test
 
