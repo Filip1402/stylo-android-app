@@ -42,8 +42,8 @@ dependencies {
     implementation project(path: ':web_services')
     implementation project(path: ':core')
     implementation 'androidx.core:core-ktx:+'
-    implementation project(path: ':registration_email_password')
-    implementation project(path: ':registration_google')
+    implementation project(path: ':authentication_email_password')
+    implementation project(path: ':authentication_google')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

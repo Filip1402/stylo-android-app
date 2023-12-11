@@ -16,5 +16,5 @@ rootProject.name = "Stylo"
 include ':app'
 include ':web_services'
 include ':core'
-include ':registration_email_password'
-include ':registration_google'
+include ':authentication_email_password'
+include ':authentication_google'
