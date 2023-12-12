@@ -12,11 +12,10 @@ import androidx.fragment.app.Fragment
 import com.airstrike.core.authentification.RegisteredUser
 import com.airstrike.core.authentification.RegistrationHandler
 import com.airstrike.core.authentification.RegistrationListener
-import com.airstrike.registration_email_password.EmailPasswordRegistration
-import com.airstrike.registration_google.GoogleRegistration
+import com.airstrike.authentication_email_password.EmailPasswordRegistration
+import com.airstrike.authentication_google.GoogleRegistration
 import com.airstrike.stylo.AuthenticationActivity
 import com.airstrike.stylo.R
-
 
 class RegistrationFragment : Fragment(), RegistrationListener {
 
@@ -27,7 +26,6 @@ class RegistrationFragment : Fragment(), RegistrationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +34,6 @@ class RegistrationFragment : Fragment(), RegistrationListener {
         return inflater.inflate(R.layout.fragment_registration, container, false)
 
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         regHanlders.forEach { handler->
             handler.showUIandHandleRegistration(this,view.findViewById(R.id.font),this)
@@ -46,21 +43,16 @@ class RegistrationFragment : Fragment(), RegistrationListener {
             redirectToLogin()
         }
     }
-
     private fun redirectToLogin() {
         (requireActivity() as AuthenticationActivity).loadFragment(LoginFragment())
     }
-
     override fun onSuccessfulRegistration(registeredUserData: RegisteredUser) {
-        Toast.makeText(context, com.airstrike.registration_email_password.R.string.succesful_sign_up, Toast.LENGTH_LONG)
+        Toast.makeText(context, R.string.succesful_sign_up, Toast.LENGTH_LONG)
             .show()
         Handler(Looper.getMainLooper()).postDelayed({redirectToLogin()},1000)      //redirect to registration fragment, delay is here to give user time to read the toast
     }
-
     override fun onFailedRegistration(reason: String) {
         Toast.makeText(context, reason,Toast.LENGTH_LONG).show()
     }
-
-
 }
 
