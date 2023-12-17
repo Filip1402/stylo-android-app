@@ -16,6 +16,7 @@ import com.airstrike.core.authentification.LoginListener
 import com.airstrike.stylo.AuthenticationActivity
 import com.airstrike.stylo.R
 import com.airstrike.stylo.ShoppingActivity
+import com.airstrike.stylo.helpers.SecurePreferencesManager
 
 class LoginFragment : Fragment(), LoginListener {
 
@@ -54,6 +55,9 @@ class LoginFragment : Fragment(), LoginListener {
     }
     override fun onSuccessfulLogin(loggedInUser: LoggedInUser) {
             Toast.makeText(this.context, R.string.successful_log_in, Toast.LENGTH_LONG).show()
+            val securePreferencesManager = SecurePreferencesManager(this.requireContext())
+            loggedInUser.password = "" //dont store the password
+            securePreferencesManager.saveObject("loggedInUser",loggedInUser)
             redirectToHomepage()
     }
     override fun onFailedLogin(reason: String) {

@@ -20,4 +20,7 @@
     <string name="children_category">Djeca</string>
     <string name="women_category">Žene</string>
     <string name="man_category">Muškarci</string>
+    <string name="title_activity_shopping">ShoppingActivity</string>
+    <string name="expired_login">Vaša prijava je istekla, prijavite se ponovno!</string>
+
 </resources>

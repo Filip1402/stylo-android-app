@@ -1,5 +1,6 @@
 package com.airstrike.stylo.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,5 +21,6 @@ class HomepageFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_homepage, container, false)
     }
+
 
 }
