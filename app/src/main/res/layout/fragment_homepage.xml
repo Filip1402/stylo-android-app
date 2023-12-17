@@ -17,34 +17,33 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/textView"
-            style="@style/Widget.AppCompat.Button"
+            android:id="@+id/tv_man"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/montserrat"
             android:text="@string/man_category"
             android:textColor="@color/dark_gray"
+            app:cornerRadius="@dimen/cardview_default_radius"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            style="@style/Widget.AppCompat.Button"
+            android:id="@+id/tv_woman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
 
+            android:layout_gravity="center"
             android:fontFamily="@font/montserrat"
             android:text="@string/women_category"
             android:textColor="@color/dark_gray"
-            app:layout_constraintEnd_toStartOf="@+id/textView2"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:cornerRadius="@dimen/cardview_default_radius"
+            app:layout_constraintEnd_toStartOf="@+id/tv_children"
+            app:layout_constraintStart_toEndOf="@+id/tv_man"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/textView2"
-
-            style="@style/Widget.AppCompat.Button"
+            android:id="@+id/tv_children"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -52,6 +51,7 @@
             android:fontFamily="@font/montserrat"
             android:text="@string/children_category"
             android:textColor="@color/dark_gray"
+            app:cornerRadius="@dimen/cardview_default_radius"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

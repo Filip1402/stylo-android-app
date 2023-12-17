@@ -1,5 +1,6 @@
 package com.airstrike.stylo.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,21 @@ class ShoesAdapter(private val bouquetsList: ArrayList<Shoe>) :
             shoeBrand.text = shoe.Manufacturer
             shoeModel.text = shoe.Model
             shoePrice.text = shoe.Price.toString() + " EUR"
-            Picasso.with(shoeImage.context).load(shoe.ImageUrls[0]).into(shoeImage)
+            Picasso.with(shoeImage.context).load(shoe.ImageUrls[0]).into(shoeImage,)
+
+            Picasso.with(shoeImage.context)
+                .load(shoe.ImageUrls[0])
+                .into(shoeImage, object : com.squareup.picasso.Callback {
+                    override fun onSuccess() {
+                        Log.i("Picasso","Success");
+                    }
+
+                    override fun onError() {
+                        Log.i("PicassoError","Couldnt load pic from url");
+                        shoeImage.setImageResource(R.drawable.noimage)
+                    }
+
+                })
         }
     }
 
