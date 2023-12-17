@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.airstrike.stylo.R
 
-class HompageFragment : Fragment() {
+class HomepageFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +18,7 @@ class HompageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hompage, container, false)
+        return inflater.inflate(R.layout.fragment_homepage, container, false)
     }
 
 }
