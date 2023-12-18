@@ -14,12 +14,15 @@ import androidx.viewpager2.widget.ViewPager2
 import com.airstrike.stylo.R
 import com.airstrike.stylo.adapters.ImagePagerAdapter
 import com.airstrike.stylo.adapters.ShoeColorsAdapter
+import com.airstrike.stylo.adapters.ShoeSizesAdapter
+import com.airstrike.stylo.models.ShoeSize
 
 
 class ShoeDetails : Fragment() {
 
     private lateinit var imageViewPager: ViewPager2
     private lateinit var colorsRecyclerView: RecyclerView
+    private lateinit var sizesRecyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -54,11 +57,34 @@ class ShoeDetails : Fragment() {
             com.airstrike.stylo.models.Color("Green","#aad413")
         )
         loadColorPicker(colors)
+
+        var sizes = arrayListOf<ShoeSize>(
+            ShoeSize(36,1),
+            ShoeSize(37 ,2),
+            ShoeSize(48 ,8),
+            ShoeSize(42,0),
+            ShoeSize(43,11) ,
+            ShoeSize(38,3),
+            ShoeSize(39,4),
+            ShoeSize(41,5),
+        )
+        loadSizesPicker(sizes)
     }
     private fun loadColorPicker(colors : ArrayList<com.airstrike.stylo.models.Color>)
     {
         colorsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         colorsRecyclerView.adapter = ShoeColorsAdapter(colors)
+    }
+
+    private fun loadSizesPicker(sizes : ArrayList<ShoeSize>)
+    {
+
+        sizes.removeIf{it.quantity <= 0}
+        sizes.sortBy {it.value}
+        sizesRecyclerView = requireView().findViewById(R.id.details_size_selector_layout)
+        sizesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        sizesRecyclerView.adapter = ShoeSizesAdapter(sizes)
+
     }
 
 }
