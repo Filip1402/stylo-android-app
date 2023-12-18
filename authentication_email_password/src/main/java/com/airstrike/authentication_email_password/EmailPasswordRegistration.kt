@@ -17,7 +17,7 @@ import com.airstrike.core.authentification.network.models.ErrorResponseBody
 import com.airstrike.registration_email_password.R
 import com.airstrike.web_services.models.RegistrationBody
 import com.airstrike.web_services.models.responses.RegisteredUser
-import com.airstrike.web_services.request_handler.RegistrationRequestHandler
+import com.airstrike.web_services.network.request_handler.RegistrationRequestHandler
 
 
 class EmailPasswordRegistration : RegistrationHandler {

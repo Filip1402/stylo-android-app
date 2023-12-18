@@ -1,4 +1,4 @@
-package com.airstrike.web_services.request_handler
+package com.airstrike.web_services.network.request_handler
 
 import android.util.Log
 import com.airstrike.core.authentification.network.RequestListener

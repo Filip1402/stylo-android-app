@@ -1,5 +1,6 @@
 package com.airstrike.stylo.fragments
 
+import HomepageContent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +21,9 @@ import com.airstrike.stylo.R
 import com.airstrike.stylo.adapters.ShoesAdapter
 import com.airstrike.stylo.models.Shoe
 import com.airstrike.web_services.models.responses.ProductResponse
-import com.airstrike.web_services.request_handler.ProductsRequestHandler
+import com.airstrike.web_services.network.request_handler.HomepageRequestHandler
+import com.airstrike.web_services.network.request_handler.ProductsRequestHandler
+import com.squareup.picasso.Picasso
 
 class HomepageFragment : Fragment() {
 
@@ -28,6 +32,7 @@ class HomepageFragment : Fragment() {
     private lateinit var btn_woman : Button
     private lateinit var btn_children : Button
     private lateinit var genderFilters : List<Button>
+    private lateinit var heroImage : ImageView
     enum class Genders{
         muškarci,
         žene,
@@ -46,11 +51,13 @@ class HomepageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        heroImage = view.findViewById(R.id.heroImage)
         btn_man = view.findViewById(R.id.tv_man)
         btn_woman = view.findViewById(R.id.tv_woman)
         btn_children= view.findViewById(R.id.tv_children)
         genderFilters = listOf(btn_man,btn_woman,btn_children)
         btn_man.setBackgroundColor(resources.getColor(R.color.gray_border))
+        getHeroImageFromBackend()
         getProductsFromBackend()
         genderFilters.forEach {
             it.setOnClickListener {button->
@@ -107,5 +114,47 @@ class HomepageFragment : Fragment() {
             }
         })
     }
+
+    private fun getHeroImageFromBackend()
+    {
+        var homepageRequestHandler = HomepageRequestHandler()
+        homepageRequestHandler.sendRequest(object : ResponseListener<HomepageContent> {
+            override fun onSuccess(response: HomepageContent) {
+                //Picasso.with(heroImage.context).load(response.images[0].heroImg.url).into(heroImage)
+               var url = response.images[0].heroImg.url
+                var fullUrl = ""
+                if(!(url.startsWith("http://") || url.startsWith("https://"))){
+                    fullUrl = "https://" + url
+                }
+                Picasso.with(heroImage.context)
+                    .load(fullUrl)
+                    .into(heroImage, object : com.squareup.picasso.Callback {
+                        override fun onSuccess() {
+                            Log.i("PicassoHero","Success");
+                        }
+
+                        override fun onError() {
+                            Log.i("PicassoErrorHerro","Couldnt load pic from url");
+                            heroImage.setImageResource(R.drawable.noimage)
+                        }
+
+
+                    })
+
+            }
+
+            override fun onErrorResponse(response: ErrorResponseBody) {
+                response.error?.let { error ->
+                    Toast.makeText(requireContext(),"Error getting hero image",Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(t: Throwable) {
+                Toast.makeText(requireContext(),t.message,Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
 
 }

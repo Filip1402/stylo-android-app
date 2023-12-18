@@ -13,6 +13,7 @@ object NetworkService {
 
     val customerService : CustomerService = instance.create(CustomerService::class.java)
     val productsService : ProductsService = instance.create(ProductsService::class.java)
+    val hompageService : HomepageService = instance.create(HomepageService::class.java)
 }
 
 

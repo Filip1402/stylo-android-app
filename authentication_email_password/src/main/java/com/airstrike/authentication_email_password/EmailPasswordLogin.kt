@@ -17,7 +17,7 @@ import com.airstrike.core.authentification.network.models.ErrorResponseBody
 import com.airstrike.registration_email_password.R
 import com.airstrike.web_services.models.LoginBody
 import com.airstrike.web_services.models.responses.LoggedInUser
-import com.airstrike.web_services.request_handler.LoginRequestHandler
+import com.airstrike.web_services.network.request_handler.LoginRequestHandler
 
 class EmailPasswordLogin : LoginHandler {
 

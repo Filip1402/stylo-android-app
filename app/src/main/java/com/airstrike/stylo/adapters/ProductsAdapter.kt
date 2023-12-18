@@ -34,7 +34,6 @@ class ShoesAdapter(private val bouquetsList: ArrayList<Shoe>) :
             shoeBrand.text = shoe.Manufacturer
             shoeModel.text = shoe.Model
             shoePrice.text = shoe.Price.toString() + " EUR"
-            Picasso.with(shoeImage.context).load(shoe.ImageUrls[0]).into(shoeImage,)
 
             Picasso.with(shoeImage.context)
                 .load(shoe.ImageUrls[0])
