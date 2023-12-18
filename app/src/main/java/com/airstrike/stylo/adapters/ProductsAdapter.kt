@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.airstrike.stylo.R
 import com.airstrike.stylo.listeners.ProductSelectionListener
@@ -14,7 +13,7 @@ import com.airstrike.stylo.models.Shoe
 import com.squareup.picasso.Picasso
 
 
-class ShoesAdapter(private val bouquetsList: ArrayList<Shoe>, private val productSelectionCallback : ProductSelectionListener) :
+class ShoesAdapter(private val productList: ArrayList<Shoe>, private val productSelectionCallback : ProductSelectionListener) :
     RecyclerView.Adapter<ShoesAdapter.ShoeViewHolder>() {
 
     inner class ShoeViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -60,16 +59,16 @@ class ShoesAdapter(private val bouquetsList: ArrayList<Shoe>, private val produc
         parent: ViewGroup,
         viewType: Int
     ): ShoeViewHolder {
-        val bouquetsView =
+        val productsView =
             LayoutInflater.from(parent.context).inflate(R.layout.product_card_layout, parent, false)
-        return ShoeViewHolder(bouquetsView)
+        return ShoeViewHolder(productsView)
     }
 
     override fun onBindViewHolder(holder: ShoeViewHolder, position: Int) {
-        holder.bind(bouquetsList[position])
+        holder.bind(productList[position])
     }
 
     override fun getItemCount(): Int {
-        return bouquetsList.size
+        return productList.size
     }
 }

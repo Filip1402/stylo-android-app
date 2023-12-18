@@ -34,7 +34,7 @@ class ShoeDetails : Fragment() {
             ,"https://4611f7eebf8e380ba0cf-39d37efa03734d3c9cf6bef1463deb23.ssl.cf3.rackcdn.com/HQ4324_4_900_900px-OlqkB8CQ.jpg"
             ,"https://4611f7eebf8e380ba0cf-39d37efa03734d3c9cf6bef1463deb23.ssl.cf3.rackcdn.com/HQ4324_1_900_900px-wi_vtOCF.jpg"
             ,"https://4611f7eebf8e380ba0cf-39d37efa03734d3c9cf6bef1463deb23.ssl.cf3.rackcdn.com/HQ4324_3_900_900px-fDX_pfa-.jpg")
-        val adapter = ImagePagerAdapter(requireContext(), imageURls)
+        val adapter = ImagePagerAdapter(imageURls)
         imageViewPager.adapter = adapter
     }
     private fun loadColorPicker(colors : ArrayList<Color>)

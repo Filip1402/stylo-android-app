@@ -8,44 +8,51 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.airstrike.stylo.R
+import com.airstrike.stylo.models.Shoe
 import com.squareup.picasso.Picasso
-
-class ImagePagerAdapter(private val context: Context, private val imageUrls: List<String>) :
+class ImagePagerAdapter(private val imageUrlList: List<String>) :
     RecyclerView.Adapter<ImagePagerAdapter.ImageViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.image_pager_item_layout, parent, false)
-        return ImageViewHolder(view)
-    }
+    inner class ImageViewHolder(private val itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val url = imageUrls[position]
-        val fullUrl = if (!(url.startsWith("http://") || url.startsWith("https://"))) {
-            "https://$url"
-        } else {
-            url
+        private  val imageView : ImageView
+        init {
+            imageView = itemView.findViewById(R.id.imagePagerItem)
         }
 
-        Picasso.with(holder.imageView.context)
-            .load(fullUrl)
-            .into(holder.imageView, object : com.squareup.picasso.Callback {
-                override fun onSuccess() {
-                    // Success
-                }
+        fun bind(url: String) {
 
-                override fun onError() {
-                    holder.imageView.setImageResource(R.drawable.noimage)
-                }
-            })
+            Picasso.with(imageView.context)
+                .load(url)
+                .into(imageView, object : com.squareup.picasso.Callback {
+                    override fun onSuccess() {
+                        Log.i("Picasso","Success");
+                    }
+
+                    override fun onError() {
+                        Log.i("PicassoError","Couldnt load pic from url");
+                        imageView.setImageResource(R.drawable.noimage)
+                    }
+                })
+
+            }
+        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val imagesView = LayoutInflater.from(parent.context).inflate(R.layout.image_pager_item_layout,parent,false)
+        return ImageViewHolder(imagesView)
     }
 
     override fun getItemCount(): Int {
-        return imageUrls.size
+        return imageUrlList.size
     }
 
-    inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imagePagerItem)
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        holder.bind(imageUrlList[position])
     }
+
+
 }
