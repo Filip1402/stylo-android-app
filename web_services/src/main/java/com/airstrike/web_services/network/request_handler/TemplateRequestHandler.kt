@@ -1,4 +1,4 @@
-package com.airstrike.web_services.request_handler
+package com.airstrike.web_services.network.request_handler
 
 import android.util.Log
 import com.airstrike.core.authentification.network.RequestListener
@@ -18,13 +18,8 @@ abstract class TemplateRequestHandler<T>  : RequestListener<T> {
                 response: Response<T>
             ) {
 
-                Log.i("Test",response.message())
-                Log.i("Test",response.code().toString())
-                Log.i("Test",response.headers().toString())
                 if(response.isSuccessful) {
                     val responseBody: T? = response.body()
-                    Log.i("TEST","adsa "+ responseBody?.toString())
-                    Log.i("TEST",(responseBody.toString()))
                     if (responseBody != null) {
                         listener.onSuccess(responseBody)
                     }
@@ -32,7 +27,6 @@ abstract class TemplateRequestHandler<T>  : RequestListener<T> {
                 else
                 {
                     var error_body = response.errorBody()
-                    Log.i("TEST", error_body.toString())
                     listener.onErrorResponse(Gson().fromJson(error_body.string(),ErrorResponseBody::class.java))
                 }
 

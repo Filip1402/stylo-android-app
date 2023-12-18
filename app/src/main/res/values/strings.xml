@@ -17,5 +17,11 @@
     <string name="dont_have_account">Don\'t have an account?</string>
     <string name="sign_up_underlined"><u>Sign up.</u></string>
     <string name="successful_log_in">Logged in</string>
+    <string name="children_category">Children</string>
+    <string name="women_category">Woman</string>
+    <string name="man_category">Man</string>
+    <string name="title_activity_shopping">ShoppingActivity</string>
+    <string name="expired_login">Your login session has expired. Login again!</string>
+    <string name="error_products">Error retrieving products</string>
 
 </resources>

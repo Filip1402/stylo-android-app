@@ -17,4 +17,11 @@
     <string name="dont_have_account">Još nemate račun?</string>
     <string name="sign_up_underlined"><u>Registriraj se</u></string>
     <string name="successful_log_in">Prijavljeni ste</string>
+    <string name="children_category">Djeca</string>
+    <string name="women_category">Žene</string>
+    <string name="man_category">Muškarci</string>
+    <string name="title_activity_shopping">ShoppingActivity</string>
+    <string name="expired_login">Vaša prijava je istekla, prijavite se ponovno!</string>
+    <string name="error_products">Greška prilikom dohvata proizvoda</string>
+
 </resources>
