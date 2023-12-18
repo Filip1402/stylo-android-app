@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso
 class ShoesAdapter(private val bouquetsList: ArrayList<Shoe>) :
     RecyclerView.Adapter<ShoesAdapter.ShoeViewHolder>() {
 
-
     inner class ShoeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val shoeBrand: TextView
