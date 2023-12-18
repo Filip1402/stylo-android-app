@@ -79,9 +79,7 @@ class HomepageFragment : Fragment(), ProductSelectionListener {
     private fun displayShoesInGrid(shoes : ArrayList<Shoe>)
     {
         rvShoes = requireView().findViewById(R.id.rv_shoes)
-
         val shoesAdapter = ShoesAdapter(shoes,this)
-
         rvShoes.layoutManager = GridLayoutManager(requireContext(),2)
         rvShoes.adapter = shoesAdapter
     }

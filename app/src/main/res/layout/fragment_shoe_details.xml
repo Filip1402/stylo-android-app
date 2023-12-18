@@ -80,7 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_shoeColors" />
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/details_color_selector_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -90,9 +90,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_shoePrice"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        />
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/details_size_selector_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
