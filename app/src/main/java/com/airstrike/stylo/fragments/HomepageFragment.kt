@@ -19,6 +19,7 @@ import com.airstrike.stylo.R
 import com.airstrike.stylo.ShoppingActivity
 import com.airstrike.stylo.adapters.ShoesAdapter
 import com.airstrike.stylo.listeners.ProductSelectionListener
+import com.airstrike.stylo.models.Color
 import com.airstrike.stylo.models.Shoe
 import com.airstrike.web_services.models.responses.ProductResponse
 import com.airstrike.web_services.network.request_handler.HomepageRequestHandler
@@ -90,8 +91,9 @@ class HomepageFragment : Fragment(), ProductSelectionListener {
                 response.forEach {product ->
                     products.add(
                         Shoe(
+                        product.id,
                         product.manufacturer,
-                        product.model.toString(),
+                        product.model,
                         product.price,
                         product.available,
                         product.extractImages(),
@@ -150,7 +152,11 @@ class HomepageFragment : Fragment(), ProductSelectionListener {
         })
     }
     override fun openProductDetail(shoe: Shoe) {
-        (activity as ShoppingActivity).loadFragment(ShoeDetails())
+        (activity as ShoppingActivity).loadFragment(ShoeDetails(shoe.Id))
+    }
+
+    override fun getProductVariantByColor(variantColor: Color) {
+        TODO("Not yet implemented")
     }
 
 

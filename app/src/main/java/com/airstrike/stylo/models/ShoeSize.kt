@@ -1,3 +1,3 @@
 package com.airstrike.stylo.models
 
-data class ShoeSize(val value: Int, val quantity : Int)
+data class ShoeSize(val size: Int, val quantity : Int)

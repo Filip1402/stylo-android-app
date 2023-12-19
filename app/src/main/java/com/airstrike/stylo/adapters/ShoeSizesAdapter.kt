@@ -24,7 +24,7 @@ class ShoeSizesAdapter(private val shoeSizes: ArrayList<ShoeSize>) :
         }
 
         fun bind(shoeSize : ShoeSize) {
-            shoeSizePicker.text = shoeSize.value.toString()
+            shoeSizePicker.text = shoeSize.size.toString()
             shoeSizePicker.setBackgroundResource(R.drawable.corner_radius)
             shoeSizePicker.setOnClickListener {
 

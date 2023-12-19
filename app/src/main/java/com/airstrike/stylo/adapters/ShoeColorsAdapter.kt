@@ -23,7 +23,7 @@ import com.airstrike.stylo.models.Color
 import com.airstrike.stylo.models.Shoe
 import com.squareup.picasso.Picasso
 
-class ShoeColorsAdapter(private val shoeColors: ArrayList<Color>) :
+class ShoeColorsAdapter(private val shoeColors: ArrayList<Color>, private val variantSelectionCallback : ProductSelectionListener) :
     RecyclerView.Adapter<ShoeColorsAdapter.ColorViewHolder>() {
 
     private var selectedPosition = RecyclerView.NO_POSITION
@@ -40,7 +40,7 @@ class ShoeColorsAdapter(private val shoeColors: ArrayList<Color>) :
 
             setButtonStyle(colorPicker,color.HexValue, "#BEBEBE")
             colorPicker.setOnClickListener {
-
+                variantSelectionCallback.getProductVariantByColor(color)
                 if (layoutPosition != RecyclerView.NO_POSITION) {
                     setButtonStyle(colorPicker,color.HexValue,"#1443BB")
                     setSelectedPosition(layoutPosition)
