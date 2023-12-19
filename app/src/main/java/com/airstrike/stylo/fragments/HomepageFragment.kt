@@ -1,9 +1,7 @@
 package com.airstrike.stylo.fragments
 
 import HomepageContent
-import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,14 +16,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airstrike.core.authentification.network.ResponseListener
 import com.airstrike.core.authentification.network.models.ErrorResponseBody
 import com.airstrike.stylo.R
+import com.airstrike.stylo.ShoppingActivity
 import com.airstrike.stylo.adapters.ShoesAdapter
+import com.airstrike.stylo.listeners.ProductSelectionListener
+import com.airstrike.stylo.models.Color
 import com.airstrike.stylo.models.Shoe
 import com.airstrike.web_services.models.responses.ProductResponse
 import com.airstrike.web_services.network.request_handler.HomepageRequestHandler
 import com.airstrike.web_services.network.request_handler.ProductsRequestHandler
 import com.squareup.picasso.Picasso
 
-class HomepageFragment : Fragment() {
+class HomepageFragment : Fragment(), ProductSelectionListener {
 
     private lateinit var rvShoes: RecyclerView
     private lateinit var btn_man : Button
@@ -76,9 +77,7 @@ class HomepageFragment : Fragment() {
     private fun displayShoesInGrid(shoes : ArrayList<Shoe>)
     {
         rvShoes = requireView().findViewById(R.id.rv_shoes)
-
-        val shoesAdapter = ShoesAdapter(shoes)
-
+        val shoesAdapter = ShoesAdapter(shoes,this)
         rvShoes.layoutManager = GridLayoutManager(requireContext(),2)
         rvShoes.adapter = shoesAdapter
     }
@@ -92,8 +91,9 @@ class HomepageFragment : Fragment() {
                 response.forEach {product ->
                     products.add(
                         Shoe(
+                        product.id,
                         product.manufacturer,
-                        product.model.toString(),
+                        product.model,
                         product.price,
                         product.available,
                         product.extractImages(),
@@ -137,10 +137,7 @@ class HomepageFragment : Fragment() {
                             Log.i("PicassoErrorHerro","Couldnt load pic from url");
                             heroImage.setImageResource(R.drawable.noimage)
                         }
-
-
                     })
-
             }
 
             override fun onErrorResponse(response: ErrorResponseBody) {
@@ -152,8 +149,14 @@ class HomepageFragment : Fragment() {
             override fun onFailure(t: Throwable) {
                 Toast.makeText(requireContext(),t.message,Toast.LENGTH_LONG).show()
             }
-
         })
+    }
+    override fun openProductDetail(shoe: Shoe) {
+        (activity as ShoppingActivity).loadFragment(ShoeDetails(shoe.Id))
+    }
+
+    override fun getProductVariantByColor(variantColor: Color) {
+        TODO("Not yet implemented")
     }
 
 
