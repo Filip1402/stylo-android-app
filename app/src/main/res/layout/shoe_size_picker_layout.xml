@@ -9,7 +9,7 @@
         android:id="@+id/sizePickerButton"
         android:background="@drawable/corner_radius"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="45dp"
         android:fontFamily="@font/montserrat"
         android:text="35"
         android:elevation="5dp"
