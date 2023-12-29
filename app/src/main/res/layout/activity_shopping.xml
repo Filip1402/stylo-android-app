@@ -10,7 +10,6 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/shopping_fragment_container"
-        android:name="com.airstrike.stylo.fragments.HomepageFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
