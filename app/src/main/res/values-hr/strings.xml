@@ -24,5 +24,7 @@
     <string name="expired_login">Vaša prijava je istekla, prijavite se ponovno!</string>
     <string name="error_products">Greška prilikom dohvata proizvoda</string>
     <string name="add_to_cart">Dodaj u košaricu</string>
+    <string name="total_shopping_cart">Ukupno:</string>
+    <string name="proceed">Nastavi</string>
 
 </resources>
