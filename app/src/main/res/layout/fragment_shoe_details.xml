@@ -114,6 +114,7 @@
         android:orientation="horizontal" />
 
     <Button
+        android:id="@+id/shoe_details_add_to_cart_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"

@@ -26,7 +26,7 @@ import com.squareup.picasso.Picasso
 class ShoeColorsAdapter(private val shoeColors: ArrayList<Color>, private val variantSelectionCallback : ProductSelectionListener) :
     RecyclerView.Adapter<ShoeColorsAdapter.ColorViewHolder>() {
 
-    private var selectedPosition = RecyclerView.NO_POSITION
+    private var selectedPosition = 0
 
     inner class ColorViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -38,7 +38,7 @@ class ShoeColorsAdapter(private val shoeColors: ArrayList<Color>, private val va
 
         fun bind(color : Color) {
 
-            setButtonStyle(colorPicker,color.HexValue, "#BEBEBE")
+            setButtonStyle(colorPicker, color.HexValue, if (layoutPosition == selectedPosition) "#1443BB" else "#BEBEBE")
             colorPicker.setOnClickListener {
                 variantSelectionCallback.getProductVariantByColor(color)
                 if (layoutPosition != RecyclerView.NO_POSITION) {
@@ -78,7 +78,7 @@ class ShoeColorsAdapter(private val shoeColors: ArrayList<Color>, private val va
         val backgroundDrawable = GradientDrawable()
         backgroundDrawable.setStroke(10,outlineColor)
         backgroundDrawable.setColor(backgroundColor)
-        backgroundDrawable.cornerRadius = 22f // Replace with your desired corner radius
+        backgroundDrawable.cornerRadius = 22f
         colorPicker.setBackground(backgroundDrawable)
 
     }

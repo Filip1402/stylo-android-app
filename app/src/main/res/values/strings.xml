@@ -24,5 +24,10 @@
     <string name="expired_login">Your login session has expired. Login again!</string>
     <string name="error_products">Error retrieving products</string>
     <string name="add_to_cart">Add to cart</string>
+    <string name="total_shopping_cart">Total:</string>
+    <string name="proceed">Proceed</string>
+    <string name="price_per_piece">1 piece =</string>
+    <string name="product_added_to_cart">Product added to cart!</string>
+    <string name="color_size_not_selected">Size not selected</string>
 
 </resources>

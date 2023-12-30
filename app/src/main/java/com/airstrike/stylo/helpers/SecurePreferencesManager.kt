@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class SecurePreferencesManager(context : Context) {
     private val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
@@ -16,7 +17,7 @@ class SecurePreferencesManager(context : Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    private val gson = Gson()
+    val gson = Gson()
 
     fun saveObject(key: String, obj: Any) {
         val jsonString = gson.toJson(obj)
@@ -27,6 +28,15 @@ class SecurePreferencesManager(context : Context) {
         val jsonString = getData(key)
         return if (jsonString != null) {
             gson.fromJson(jsonString, clazz)
+        } else {
+            null
+        }
+    }
+    inline fun <reified T> getObjects(key: String, clazz: Class<T>): ArrayList<T>? {
+        val jsonString = getData(key)
+        return if (jsonString != null) {
+            val type = object : TypeToken<ArrayList<T>>() {}.type
+            gson.fromJson(jsonString, type)
         } else {
             null
         }
