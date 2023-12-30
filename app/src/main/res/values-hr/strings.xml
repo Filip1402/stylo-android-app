@@ -29,5 +29,7 @@
     <string name="price_per_piece">1 kom =</string>
     <string name="product_added_to_cart">Proizvod dodan u košaricu!</string>
     <string name="color_size_not_selected">Veličina nije odabrana</string>
+    <string name="shipping_address">Adresa za dostavu pošiljke:</string>
+    <string name="billing_adress">Adresa za naplatu:</string>
 
 </resources>

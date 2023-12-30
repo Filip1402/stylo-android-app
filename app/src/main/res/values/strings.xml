@@ -29,5 +29,7 @@
     <string name="price_per_piece">1 piece =</string>
     <string name="product_added_to_cart">Product added to cart!</string>
     <string name="color_size_not_selected">Size not selected</string>
+    <string name="shipping_address">Shipping address:</string>
+    <string name="billing_adress">Billing address:</string>
 
 </resources>
