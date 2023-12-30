@@ -11,5 +11,5 @@ data class Address(
     val city: String,
     val country: String,
     val phone: String,
-    val additionalAddressInfo: String
+    //val additionalAddressInfo: String
 )
