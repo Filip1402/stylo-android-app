@@ -51,30 +51,35 @@ class AddressesAdapter(private val addresses: MutableList<Address>, private val 
             editBtn.setOnClickListener {
                 val dialogView = LayoutInflater.from(view.context).inflate(R.layout.address_details_layout, null)
                 val addressDialogHandler =  AddressDetailsDialogHandler(dialogView,address)
-                AlertDialog.Builder(view.context)
+                val alertDialog =
+                    AlertDialog.Builder(view.context)
                     .setTitle(R.string.edit_address)
                     .setView(dialogView)
-                    .setPositiveButton(view.resources.getString(R.string.save),){ _dialog, _ ->
-
-                        if(addressDialogHandler.checkIfRequiredDataIsProvided() == true)
-                        {
-                            addressAdditionListener.notifyAddressUpdate(address,addressDialogHandler.getAddress())
-                            notifyDataSetChanged();
-                            _dialog.dismiss()
-                        }
-                        else {
-                            Toast.makeText(
-                                view.context,
-                                R.string.missing_addres_data,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
+                    .setPositiveButton(view.resources.getString(R.string.save),null)
                     .setNegativeButton(view.resources.getString(R.string.cancel)){ _, _ ->
                     }
                     .show()
+                val positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                positiveButton.setOnClickListener {
+
+                    if(addressDialogHandler.checkIfRequiredDataIsProvided() == true)
+                    {
+                        addressAdditionListener.notifyAddressUpdate(address,addressDialogHandler.getAddress())
+                        notifyDataSetChanged();
+                        alertDialog.dismiss()
+                    }
+                    else {
+                        Toast.makeText(
+                            view.context,
+                            R.string.missing_addres_data,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                }
                 return@setOnClickListener
             }
+
 
         }
     }

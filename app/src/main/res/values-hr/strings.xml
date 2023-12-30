@@ -38,7 +38,8 @@
     <string name="house_number">Broj</string>
     <string name="postal_number">Poštanski broj</string>
     <string name="city">Grad</string>
-    <string name="additional_address_info">Dodatni podaci o adresi(opcionalno)</string>
+    <string name="additional_address_info">Dodatni podaci o adresi</string>
     <string name="missing_addres_data">Unesite sva obavezna polja</string>
+    <string name="chose_country">Odaberi zemlju</string>
 
 </resources>

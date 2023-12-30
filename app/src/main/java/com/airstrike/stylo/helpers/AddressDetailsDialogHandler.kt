@@ -10,7 +10,7 @@ import com.airstrike.stylo.models.Address
 
 class AddressDetailsDialogHandler {
     private val View : View
-    private val CurrentAddress : Address
+    private var CurrentAddress : Address? = null
     private lateinit var countrySelector : Spinner
     private lateinit var firstName : EditText
     private lateinit var lastName : EditText
@@ -20,24 +20,26 @@ class AddressDetailsDialogHandler {
     private lateinit var postalNumber : EditText
     private lateinit var city : EditText
     private lateinit var phoneNumber : EditText
-
+    private val supportedCountries  : List<String> //get them from commercetools
     constructor(view : View, currentAddress : Address)
     {
         View = view
         CurrentAddress = currentAddress
+        supportedCountries = listOf(View.context.getString(R.string.chose_country),"HR","UK","IT","US")
         bindUI(View)
-        loadData(CurrentAddress)
+        loadData(CurrentAddress!!)
+    }
+
+    constructor(view : View)
+    {
+        View = view
+        supportedCountries = listOf(View.context.getString(R.string.chose_country),"HR","UK","IT","US")
+        bindUI(View)
     }
 
     private fun loadData(currentAddress: Address) {
-        val adapter: ArrayAdapter<String> = ArrayAdapter(
-            View.context,
-            android.R.layout.simple_spinner_item,
-            listOf("HR","UK","IT","US")
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        countrySelector.adapter = adapter
+        val index = supportedCountries.indexOf(currentAddress.country)
+        countrySelector.setSelection(index,true)
         firstName.setText(currentAddress.firstName)
         lastName.setText(currentAddress.lastName)
         streetName.setText(currentAddress.streetName)
@@ -58,6 +60,14 @@ class AddressDetailsDialogHandler {
         postalNumber = view.findViewById(R.id.address_postal_number_et)
         city = view.findViewById(R.id.address_city_et)
         phoneNumber = view.findViewById(R.id.address_phone_et)
+        val adapter: ArrayAdapter<String> = ArrayAdapter(
+            View.context,
+            android.R.layout.simple_spinner_item,
+            supportedCountries
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        countrySelector.adapter = adapter
     }
 
     fun checkIfRequiredDataIsProvided() : Boolean{
@@ -68,6 +78,7 @@ class AddressDetailsDialogHandler {
                 && postalNumber.text.isNotBlank()
                 && city.text.isNotBlank()
                 && phoneNumber.text.isNotBlank()
+                && countrySelector.selectedItem as String != View.context.getString(R.string.chose_country)
     }
 
     fun getAddress() : Address

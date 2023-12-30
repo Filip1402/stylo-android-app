@@ -38,8 +38,9 @@
     <string name="house_number">Number</string>
     <string name="postal_number">Postal number</string>
     <string name="city">City</string>
-    <string name="additional_address_info">Adittional address information(optional)</string>
+    <string name="additional_address_info">Adittional address information</string>
     <string name="missing_addres_data">You need to fill all required  fields</string>
+    <string name="chose_country">Select country</string>
 
 
 </resources>
