@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.airstrike.stylo.R
-import com.airstrike.stylo.listeners.AddressListener
+import com.airstrike.stylo.helpers.AddressDetailsDialogHandler
+import com.airstrike.stylo.listeners.AddressChangeListener
+import com.airstrike.stylo.listeners.AddressSelectionListener
 import com.airstrike.stylo.models.Address
 
 
-class AddressesAdapter(private val addresses: ArrayList<Address>, private val addressListener: AddressListener) :
+class AddressesAdapter(private val addresses: MutableList<Address>, private val addressListener: AddressSelectionListener, private val addressAdditionListener: AddressChangeListener) :
     RecyclerView.Adapter<AddressesAdapter.AddressViewHolder>() {
 
     private var selectedPosition = 0
@@ -42,11 +45,30 @@ class AddressesAdapter(private val addresses: ArrayList<Address>, private val ad
                     setSelectedPosition(layoutPosition)
                 }
             }
+
+
+
             editBtn.setOnClickListener {
+                val dialogView = LayoutInflater.from(view.context).inflate(R.layout.address_details_layout, null)
+                val addressDialogHandler =  AddressDetailsDialogHandler(dialogView,address)
                 AlertDialog.Builder(view.context)
                     .setTitle(R.string.edit_address)
-                    .setPositiveButton(view.resources.getString(R.string.save)){ _, _ ->
-                        //notifyDataSetChanged();
+                    .setView(dialogView)
+                    .setPositiveButton(view.resources.getString(R.string.save),){ _dialog, _ ->
+
+                        if(addressDialogHandler.checkIfRequiredDataIsProvided() == true)
+                        {
+                            addressAdditionListener.notifyAddressUpdate(address,addressDialogHandler.getAddress())
+                            notifyDataSetChanged();
+                            _dialog.dismiss()
+                        }
+                        else {
+                            Toast.makeText(
+                                view.context,
+                                R.string.missing_addres_data,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                     .setNegativeButton(view.resources.getString(R.string.cancel)){ _, _ ->
                     }

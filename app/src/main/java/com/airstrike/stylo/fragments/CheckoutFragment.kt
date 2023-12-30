@@ -9,16 +9,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airstrike.stylo.R
 import com.airstrike.stylo.adapters.AddressesAdapter
-import com.airstrike.stylo.listeners.AddressListener
+import com.airstrike.stylo.listeners.AddressChangeListener
+import com.airstrike.stylo.listeners.AddressSelectionListener
 import com.airstrike.stylo.models.Address
 
 
-class CheckoutFragment : Fragment(){
+class CheckoutFragment : Fragment(), AddressChangeListener{
 
     private lateinit var shippingAddressesRv : RecyclerView
     private lateinit var billingAddressesRv : RecyclerView
     private lateinit var selectedShippingAddress : Address
-    private val addresses = arrayListOf<Address>(
+    private val addresses = mutableListOf<Address>(
         Address(
             id = "1",
             firstName = "Ana",
@@ -30,7 +31,6 @@ class CheckoutFragment : Fragment(){
             city = "Zagreb",
             country = "HR",
             phone = "+385912345678",
-            additionalAddressInfo = "Near the main square"
     ),Address(
             id = "2",
             firstName = "Marko",
@@ -42,7 +42,6 @@ class CheckoutFragment : Fragment(){
             city = "Rijeka",
             country = "HR",
             phone = "+385987654321",
-            additionalAddressInfo = ""
         ),Address(
             id = "3",
             firstName = "Ivana",
@@ -54,7 +53,6 @@ class CheckoutFragment : Fragment(){
             city = "Vukovar",
             country = "HR",
             phone = "+385998877665",
-            additionalAddressInfo = "Close to the Danube River"
         )
     )
 
@@ -75,11 +73,21 @@ class CheckoutFragment : Fragment(){
 
 
         shippingAddressesRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-        shippingAddressesRv.adapter = AddressesAdapter(addresses,object : AddressListener{
+        shippingAddressesRv.adapter = AddressesAdapter(addresses,object : AddressSelectionListener{
             override fun notifyAddressSelectionChanged(address: Address) {
                 selectedShippingAddress = address
             }
-        })
+        },this)
+    }
+
+    override fun notifyAddressAddition(address: Address) {
+        addresses.add(0,address)
+    }
+
+    override fun notifyAddressUpdate(oldAddress: Address, newAddress: Address) {
+        val index = addresses.indexOf(oldAddress)
+        addresses.remove(oldAddress)
+        addresses.add(index,newAddress)
     }
 
 

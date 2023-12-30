@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airstrike.core.authentification.network.ResponseListener
@@ -30,10 +31,10 @@ import com.squareup.picasso.Picasso
 class HomepageFragment : Fragment(), ProductSelectionListener {
 
     private lateinit var rvShoes: RecyclerView
-    private lateinit var btn_man : Button
-    private lateinit var btn_woman : Button
-    private lateinit var btn_children : Button
-    private lateinit var genderFilters : List<Button>
+    private lateinit var btn_man : AppCompatButton
+    private lateinit var btn_woman : AppCompatButton
+    private lateinit var btn_children : AppCompatButton
+    private lateinit var genderFilters : List<AppCompatButton>
     private lateinit var heroImage : ImageView
     enum class Genders{
         muškarci,
