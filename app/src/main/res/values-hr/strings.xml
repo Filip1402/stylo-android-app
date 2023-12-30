@@ -26,5 +26,8 @@
     <string name="add_to_cart">Dodaj u košaricu</string>
     <string name="total_shopping_cart">Ukupno:</string>
     <string name="proceed">Nastavi</string>
+    <string name="price_per_piece">1 kom =</string>
+    <string name="product_added_to_cart">Proizvod dodan u košaricu!</string>
+    <string name="color_size_not_selected">Veličina nije odabrana</string>
 
 </resources>

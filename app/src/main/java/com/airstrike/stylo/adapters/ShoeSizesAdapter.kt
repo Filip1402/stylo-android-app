@@ -7,10 +7,11 @@ import android.widget.Button
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import com.airstrike.stylo.R
+import com.airstrike.stylo.listeners.ProductSelectionListener
 import com.airstrike.stylo.models.Color
 import com.airstrike.stylo.models.ShoeSize
 
-class ShoeSizesAdapter(private val shoeSizes: ArrayList<ShoeSize>) :
+class ShoeSizesAdapter(private val shoeSizes: ArrayList<ShoeSize>, private val variantSelectionCallback : ProductSelectionListener) :
     RecyclerView.Adapter<ShoeSizesAdapter.ShoeSizeViewHolder>() {
 
     private var selectedPosition = RecyclerView.NO_POSITION
@@ -32,6 +33,7 @@ class ShoeSizesAdapter(private val shoeSizes: ArrayList<ShoeSize>) :
                     it.setBackgroundResource(R.drawable.blue_corner_radius)
                     setSelectedPosition(layoutPosition)
                 }
+                variantSelectionCallback.getProductVariantSize(shoeSize)
             }
         }
     }
