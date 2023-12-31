@@ -77,7 +77,7 @@ class AddressDetailsDialogHandler {
                 && houseNumber.text.isNotBlank()
                 && postalNumber.text.isNotBlank()
                 && city.text.isNotBlank()
-                && phoneNumber.text.isNotBlank()
+                //&& phoneNumber.text.isNotBlank()
                 && countrySelector.selectedItem as String != View.context.getString(R.string.chose_country)
     }
 
