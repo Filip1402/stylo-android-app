@@ -2,6 +2,7 @@ package com.airstrike.stylo.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ class CheckoutFragment : Fragment(), AddressChangeListener{
     private lateinit var billingAddressesRv : RecyclerView
     private lateinit var addAddressBtn : TextView
     private lateinit var selectedShippingAddress : Address
+    private lateinit var selectedBillingAddress : Address
     private var addresses = mutableListOf<Address>(
         Address(
             id = "1",
@@ -81,13 +83,22 @@ class CheckoutFragment : Fragment(), AddressChangeListener{
         shippingAddressesRv.adapter = AddressesAdapter(addresses,object : AddressSelectionListener{
             override fun notifyAddressSelectionChanged(address: Address) {
                 selectedShippingAddress = address
+                Log.i("shipping",selectedShippingAddress.toString())
+
+            }
+        },this)
+
+        billingAddressesRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        billingAddressesRv.adapter = AddressesAdapter(addresses,object : AddressSelectionListener{
+            override fun notifyAddressSelectionChanged(address: Address) {
+                selectedBillingAddress = address
+                Log.i("billing",selectedBillingAddress.toString())
             }
         },this)
 
         handleAddAddresBtnClick(view)
 
     }
-
     private fun handleAddAddresBtnClick(view: View) {
         addAddressBtn.setOnClickListener {
             val dialogView = LayoutInflater.from(view.context).inflate(R.layout.address_details_layout, null)
@@ -125,13 +136,17 @@ class CheckoutFragment : Fragment(), AddressChangeListener{
         addresses.add(0,address)
         shippingAddressesRv.adapter?.notifyDataSetChanged()
         billingAddressesRv.adapter?.notifyDataSetChanged()
-        TODO("Send data to server")
+        //Send data to server
     }
 
     override fun notifyAddressUpdate(oldAddress: Address, newAddress: Address) {
         val index = addresses.indexOf(oldAddress)
-        addresses.remove(oldAddress)
-        addresses.add(index,newAddress)
+        if(index == -1)
+            return
+        addresses[index] = newAddress
+        shippingAddressesRv.adapter?.notifyDataSetChanged()
+        billingAddressesRv.adapter?.notifyDataSetChanged()
+
     }
 
 
