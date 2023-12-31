@@ -63,8 +63,8 @@ class ShoeDetails(private val productId : String) : Fragment(), ProductSelection
         colors_tv = view.findViewById(R.id.details_shoeColors)
         price_tv = view.findViewById(R.id.details_shoePrice)
         addToCart_btn = view.findViewById(R.id.shoe_details_add_to_cart_btn)
-        retrieveProductDataFromBackend(null)
         handleAddToCartBtn()
+        retrieveProductDataFromBackend(null)
     }
     private fun loadProductImages(imageUrls: ArrayList<String>) {
         imageViewPager = requireView().findViewById(R.id.picturesViewPager)
@@ -144,10 +144,11 @@ class ShoeDetails(private val productId : String) : Fragment(), ProductSelection
 
             if (data != null) {
                 cart.addAll(data)
-                cart = addItemToCart(cart,cartItem)
-                securePreferencesManager.saveObject("cart",cart)
-                Toast.makeText(context,R.string.product_added_to_cart,Toast.LENGTH_LONG).show()
             }
+            cart = addItemToCart(cart,cartItem)
+            securePreferencesManager.saveObject("cart",cart)
+            Toast.makeText(context,R.string.product_added_to_cart,Toast.LENGTH_LONG).show()
+
         }
     }
 

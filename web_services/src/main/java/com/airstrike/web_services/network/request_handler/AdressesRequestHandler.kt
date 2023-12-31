@@ -4,10 +4,10 @@ import com.airstrike.web_services.models.responses.CustomersAddresses
 import com.airstrike.web_services.network.NetworkService
 import retrofit2.Call
 
-class AddressesRequestHandler(private val email : String) : TemplateRequestHandler<CustomersAddresses>(){
+class AddressesRequestHandler(private val email : String, private val jwt : String) : TemplateRequestHandler<CustomersAddresses>(){
     override fun getServiceCall(): Call<CustomersAddresses> {
         val service = NetworkService.customerService
-        return service.getCustomerAddresses(email)
+        return service.getCustomerAddresses("Bearer "+ jwt,email)
     }
 
 
