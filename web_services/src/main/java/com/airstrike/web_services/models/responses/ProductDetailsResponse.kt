@@ -14,6 +14,7 @@ data class ProductDetailsResponse(
     )
 
     data class Variant(
+        @SerializedName("sku") val sku: String,
         @SerializedName("color") val color: String,
         @SerializedName("images") val images: List<String>,
         @SerializedName("sizes") val sizes: List<Size>

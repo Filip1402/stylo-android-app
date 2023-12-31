@@ -111,7 +111,7 @@ class ShoeDetails(private val productId : String) : Fragment(), ProductSelection
                     response.price,
                     response.available,
                     response.variants[variantIndex].images,
-                    null)
+                    response.variants[variantIndex].sku)
             }
 
             override fun onErrorResponse(response: ErrorResponseBody) {

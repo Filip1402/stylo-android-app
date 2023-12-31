@@ -21,6 +21,7 @@ import com.airstrike.stylo.helpers.SecurePreferencesManager
 import com.airstrike.stylo.listeners.AddressChangeListener
 import com.airstrike.stylo.listeners.AddressSelectionListener
 import com.airstrike.stylo.models.Address
+import com.airstrike.stylo.models.CartItem
 import com.airstrike.web_services.models.responses.CustomersAddresses
 import com.airstrike.web_services.models.responses.JWT
 import com.airstrike.web_services.network.request_handler.AddressesRequestHandler
@@ -35,9 +36,16 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
     private lateinit var selectedShippingAddress: Address
     private lateinit var selectedBillingAddress: Address
     private var addresses = mutableListOf<Address>()
+    private var cart = arrayListOf<CartItem>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getCustomerAddresses("")
+        getCartItems()?.let {cart = it}
+        Log.i("cart",cart.toString())
+    }
+
+    private fun getCartItems(): ArrayList<CartItem>? {
+        return SecurePreferencesManager(requireContext()).getObjects("cart", CartItem::class.java)
     }
 
 

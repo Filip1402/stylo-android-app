@@ -7,6 +7,6 @@ data class Shoe(
     val Price  : Double,
     val Available : Boolean,
     val ImageUrls : List<String>,
-    val Variants : List<Shoe>?
+    val selectedVariantSku : String?
 ) {
 }
