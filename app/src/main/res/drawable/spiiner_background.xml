@@ -1,0 +1,11 @@
+<!-- res/drawable/custom_spinner_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/gray_border"
+/>
+    <!-- Adjust the android:right attribute and arrow size as needed -->
+    <item
+
+        android:right="5dp"
+        android:drawable="@android:drawable/arrow_down_float"
+        android:gravity="end|center_vertical" />
+</layer-list>

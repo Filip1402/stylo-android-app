@@ -29,5 +29,17 @@
     <string name="price_per_piece">1 kom =</string>
     <string name="product_added_to_cart">Proizvod dodan u košaricu!</string>
     <string name="color_size_not_selected">Veličina nije odabrana</string>
+    <string name="shipping_address">Odaberite adresu za dostavu pošiljke</string>
+    <string name="billing_adress">Odaberite adresu za naplatu</string>
+    <string name="edit_address">Uredi adresu</string>
+    <string name="save">Spremi</string>
+    <string name="cancel">Odustani</string>
+    <string name="street_name">Naziv ulice</string>
+    <string name="house_number">Broj</string>
+    <string name="postal_number">Poštanski broj</string>
+    <string name="city">Grad</string>
+    <string name="additional_address_info">Dodatni podaci o adresi</string>
+    <string name="missing_addres_data">Unesite sva obavezna polja</string>
+    <string name="chose_country">Odaberi zemlju</string>
 
 </resources>

@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airstrike.stylo.ProcessingActivity
 import com.airstrike.stylo.R
 import com.airstrike.stylo.adapters.CartItemsAdapter
 import com.airstrike.stylo.helpers.SecurePreferencesManager
@@ -20,6 +22,7 @@ class ShoppingCart : Fragment(), CartItemListener {
     private lateinit var rvShopingCart : RecyclerView
     private  var cartItems = mutableListOf<CartItem>()
     private lateinit var cartTotal : TextView
+    private lateinit var proceedToCheckoutBtn : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -32,11 +35,15 @@ class ShoppingCart : Fragment(), CartItemListener {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         cartTotal = view.findViewById(R.id.cart_total)
+        proceedToCheckoutBtn = view.findViewById(R.id.cart_got_to_checkout)
         securePreferencesManager = SecurePreferencesManager(this.requireContext())
         rvShopingCart = view.findViewById(R.id.cart_items_recycler_view)
         rvShopingCart.layoutManager = LinearLayoutManager(context)
         loadShopingCartList()
         calculateCartTotal()
+        proceedToCheckoutBtn.setOnClickListener {
+            (requireActivity() as ProcessingActivity).loadFragment(CheckoutFragment())
+        }
     }
     private fun loadShopingCartList() {
         var data = securePreferencesManager.getObjects("cart", CartItem::class.java)

@@ -29,5 +29,18 @@
     <string name="price_per_piece">1 piece =</string>
     <string name="product_added_to_cart">Product added to cart!</string>
     <string name="color_size_not_selected">Size not selected</string>
+    <string name="shipping_address">Chose shipping address</string>
+    <string name="billing_adress">Chose billing address</string>
+    <string name="edit_address">Edit address</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="street_name">Street name</string>
+    <string name="house_number">Number</string>
+    <string name="postal_number">Postal number</string>
+    <string name="city">City</string>
+    <string name="additional_address_info">Adittional address information</string>
+    <string name="missing_addres_data">You need to fill all required  fields</string>
+    <string name="chose_country">Select country</string>
+
 
 </resources>
