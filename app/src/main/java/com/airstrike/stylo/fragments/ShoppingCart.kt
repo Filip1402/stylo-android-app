@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airstrike.stylo.ProcessingActivity
@@ -42,9 +43,13 @@ class ShoppingCart : Fragment(), CartItemListener {
         loadShopingCartList()
         calculateCartTotal()
         proceedToCheckoutBtn.setOnClickListener {
-            (requireActivity() as ProcessingActivity).loadFragment(CheckoutFragment())
+            if(cartItems.size > 0)
+                (requireActivity() as ProcessingActivity).loadFragment(CheckoutFragment())
+            else
+                Toast.makeText(requireContext(),"Add items, before checkout!!!",Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun loadShopingCartList() {
         var data = securePreferencesManager.getObjects("cart", CartItem::class.java)
         if(data != null)
@@ -52,6 +57,8 @@ class ShoppingCart : Fragment(), CartItemListener {
             cartItems = data
             rvShopingCart.adapter = CartItemsAdapter(cartItems,this)
         }
+        else
+            cartItems = mutableListOf<CartItem>()//empty the list
     }
     override fun removeCartItem(item: CartItem) {
         cartItems.remove(item)

@@ -44,7 +44,7 @@ class ProcessingActivity : AppCompatActivity() {
     fun loadFragment(newFragment : Fragment)
     {
         supportFragmentManager.commit {
-            replace(R.id.processing_activity_fragment_container, newFragment)
+            replace(R.id.processing_activity_fragment_container, newFragment,"processing")
             addToBackStack(null)
         }
     }

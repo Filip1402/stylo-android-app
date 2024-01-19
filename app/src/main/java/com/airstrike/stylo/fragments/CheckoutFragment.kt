@@ -1,25 +1,33 @@
 package com.airstrike.stylo.fragments
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airstrike.core.authentification.LoggedInUser
 import com.airstrike.core.authentification.network.ResponseListener
 import com.airstrike.core.authentification.network.models.ErrorResponseBody
+import com.airstrike.stylo.ProcessingActivity
 import com.airstrike.stylo.R
+import com.airstrike.stylo.ShoppingActivity
 import com.airstrike.stylo.adapters.AddressesAdapter
 import com.airstrike.stylo.helpers.AddressDetailsDialogHandler
+import com.airstrike.stylo.helpers.PaymentManager
 import com.airstrike.stylo.helpers.SecurePreferencesManager
 import com.airstrike.stylo.listeners.AddressChangeListener
 import com.airstrike.stylo.listeners.AddressSelectionListener
+import com.airstrike.stylo.listeners.PaymentOutcomeListener
 import com.airstrike.stylo.models.Address
 import com.airstrike.stylo.models.CartItem
 import com.airstrike.web_services.models.responses.CustomersAddresses
@@ -37,17 +45,43 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
     private lateinit var selectedBillingAddress: Address
     private var addresses = mutableListOf<Address>()
     private var cart = arrayListOf<CartItem>()
+    private lateinit var paymentManager : PaymentManager
+    private lateinit var payBtn : Button
+    private  var fragmentTag : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getCustomerAddresses("")
         getCartItems()?.let {cart = it}
         Log.i("cart",cart.toString())
+        fragmentTag = this.tag
+
+        setupPayment()
+    }
+
+    private fun setupPayment() {
+        var total = 0.0
+        cart.forEach {
+            total+= it.quantity * it.shoe.Price
+        }
+        paymentManager = PaymentManager(this,total,object : PaymentOutcomeListener{
+            override fun onPaymentSuccess() {
+                SecurePreferencesManager(requireContext()).deleteData("cart")
+                Toast.makeText(requireContext(), "Successful payment",Toast.LENGTH_SHORT).show()
+                startActivity(Intent(requireContext(), ShoppingActivity::class.java))
+
+            }
+
+            override fun onPaymentFailure() {
+                Toast.makeText(requireContext(), "Payment error",Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
     private fun getCartItems(): ArrayList<CartItem>? {
         return SecurePreferencesManager(requireContext()).getObjects("cart", CartItem::class.java)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +94,7 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
         shippingAddressesRv = view.findViewById(R.id.shipping_address_rv)
         billingAddressesRv = view.findViewById(R.id.billing_address_rv)
         addAddressBtn = view.findViewById(R.id.checkout_add_shipping_address)
+        payBtn = view.findViewById(R.id.paybtn)
 
         shippingAddressesRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -82,6 +117,12 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
 
         handleAddAddresBtnClick(view)
 
+        payBtn.setOnClickListener {
+            paymentManager.presentPaymentSheet(
+                selectedBillingAddress.city,
+                selectedBillingAddress.country,
+                selectedBillingAddress.postalCode)
+        }
     }
 
     private fun handleAddAddresBtnClick(view: View) {
@@ -115,7 +156,6 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
             return@setOnClickListener
         }
     }
-
 
     private fun getJWTFromBackend() {
         JwtRequestHandler().sendRequest(object : ResponseListener<JWT> {
@@ -162,6 +202,10 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
                         )
                     )
                 }
+                if(!::selectedBillingAddress.isInitialized)
+                    selectedBillingAddress = addresses[0]
+                if(addresses.size == 0)
+                    Toast.makeText(requireContext(),"Add address",Toast.LENGTH_LONG).show()
                 shippingAddressesRv.adapter?.notifyDataSetChanged()
                 billingAddressesRv.adapter?.notifyDataSetChanged()
             }

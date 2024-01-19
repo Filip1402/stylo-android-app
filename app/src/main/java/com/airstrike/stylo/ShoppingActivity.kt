@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -40,11 +41,15 @@ class ShoppingActivity : AppCompatActivity() {
         }
         val callback = object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
+
                 val currentFragment = supportFragmentManager.findFragmentById(R.id.shopping_fragment_container)
                 when(currentFragment)
                 {
                     is ShoeDetails ->{
                         supportFragmentManager.popBackStack()
+                    }
+                    is HomepageFragment ->{
+
                     }
                     else ->{
                         isEnabled = false
