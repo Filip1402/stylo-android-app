@@ -11,17 +11,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airstrike.core.authentification.LoggedInUser
 import com.airstrike.core.authentification.network.ResponseListener
 import com.airstrike.core.authentification.network.models.ErrorResponseBody
-import com.airstrike.stylo.ProcessingActivity
 import com.airstrike.stylo.R
 import com.airstrike.stylo.ShoppingActivity
 import com.airstrike.stylo.adapters.AddressesAdapter
+import com.airstrike.stylo.adapters.CheckoutItemAdapter
 import com.airstrike.stylo.helpers.AddressDetailsDialogHandler
 import com.airstrike.stylo.helpers.PaymentManager
 import com.airstrike.stylo.helpers.SecurePreferencesManager
@@ -30,19 +28,27 @@ import com.airstrike.stylo.listeners.AddressSelectionListener
 import com.airstrike.stylo.listeners.PaymentOutcomeListener
 import com.airstrike.stylo.models.Address
 import com.airstrike.stylo.models.CartItem
+import com.airstrike.web_services.models.OrderBody
+import com.airstrike.web_services.models.ShippingAddress
 import com.airstrike.web_services.models.responses.CustomersAddresses
 import com.airstrike.web_services.models.responses.JWT
+import com.airstrike.web_services.models.responses.OrderResponse
 import com.airstrike.web_services.network.request_handler.AddressesRequestHandler
+import com.airstrike.web_services.network.request_handler.CreateOrderRequestHandler
 import com.airstrike.web_services.network.request_handler.JwtRequestHandler
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class CheckoutFragment : Fragment(), AddressChangeListener {
 
     private lateinit var shippingAddressesRv: RecyclerView
     private lateinit var billingAddressesRv: RecyclerView
+    private lateinit var checkoutItemsRv: RecyclerView
     private lateinit var addAddressBtn: TextView
     private lateinit var selectedShippingAddress: Address
     private lateinit var selectedBillingAddress: Address
+    private lateinit var Total : TextView
     private var addresses = mutableListOf<Address>()
     private var cart = arrayListOf<CartItem>()
     private lateinit var paymentManager : PaymentManager
@@ -55,32 +61,7 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
         getCartItems()?.let {cart = it}
         Log.i("cart",cart.toString())
         fragmentTag = this.tag
-
         setupPayment()
-    }
-
-    private fun setupPayment() {
-        var total = 0.0
-        cart.forEach {
-            total+= it.quantity * it.shoe.Price
-        }
-        paymentManager = PaymentManager(this,total,object : PaymentOutcomeListener{
-            override fun onPaymentSuccess() {
-                SecurePreferencesManager(requireContext()).deleteData("cart")
-                Toast.makeText(requireContext(), "Successful payment",Toast.LENGTH_SHORT).show()
-                startActivity(Intent(requireContext(), ShoppingActivity::class.java))
-
-            }
-
-            override fun onPaymentFailure() {
-                Toast.makeText(requireContext(), "Payment error",Toast.LENGTH_SHORT).show()
-            }
-
-        })
-    }
-
-    private fun getCartItems(): ArrayList<CartItem>? {
-        return SecurePreferencesManager(requireContext()).getObjects("cart", CartItem::class.java)
     }
 
     override fun onCreateView(
@@ -95,6 +76,8 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
         billingAddressesRv = view.findViewById(R.id.billing_address_rv)
         addAddressBtn = view.findViewById(R.id.checkout_add_shipping_address)
         payBtn = view.findViewById(R.id.paybtn)
+        checkoutItemsRv = view.findViewById(R.id.checkout_items_rv)
+        Total = view.findViewById(R.id.checkout_total)
 
         shippingAddressesRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -115,13 +98,17 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
             }
         }, this)
 
+        checkoutItemsRv.layoutManager = LinearLayoutManager(requireContext())
+        checkoutItemsRv.adapter = CheckoutItemAdapter(cart)
+        calculateCartTotal()
+
         handleAddAddresBtnClick(view)
 
         payBtn.setOnClickListener {
             paymentManager.presentPaymentSheet(
-                selectedBillingAddress.city,
-                selectedBillingAddress.country,
-                selectedBillingAddress.postalCode)
+                selectedBillingAddress.city!!,
+                selectedBillingAddress.country!!,
+                selectedBillingAddress.postalCode!!)
         }
     }
 
@@ -176,7 +163,12 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
 
         })
     }
-
+    private fun calculateCartTotal()
+    {
+        var total = 0.0
+        cart.forEach { total+=it.quantity * it.shoe.Price}
+        Total.text = getString(R.string.total_shopping_cart) + " " + String.format("%.2f",total) + " EUR"
+    }
     private fun getCustomerAddresses(jwt: String) {
         val user = SecurePreferencesManager(requireContext()).getObject(
             "loggedInUser",
@@ -202,10 +194,14 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
                         )
                     )
                 }
+                if(addresses.size == 0) {
+                    Toast.makeText(requireContext(), "Add address", Toast.LENGTH_LONG).show()
+                    return
+                }
                 if(!::selectedBillingAddress.isInitialized)
                     selectedBillingAddress = addresses[0]
-                if(addresses.size == 0)
-                    Toast.makeText(requireContext(),"Add address",Toast.LENGTH_LONG).show()
+                if(!::selectedShippingAddress.isInitialized)
+                    selectedShippingAddress = addresses[0]
                 shippingAddressesRv.adapter?.notifyDataSetChanged()
                 billingAddressesRv.adapter?.notifyDataSetChanged()
             }
@@ -222,6 +218,70 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
             }
         })
 
+    }
+
+    private fun setupPayment() {
+        var total = 0.0
+        cart.forEach {
+            total+= it.quantity * it.shoe.Price
+        }
+        paymentManager = PaymentManager(this,total,object : PaymentOutcomeListener{
+            override fun onPaymentSuccess() {
+                Toast.makeText(requireContext(), "Successful payment",Toast.LENGTH_SHORT).show()
+                sendOrderToBackend()
+            }
+
+            override fun onPaymentFailure() {
+                Toast.makeText(requireContext(), "Payment error",Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun sendOrderToBackend() {
+
+
+        var cartItems = arrayListOf<com.airstrike.web_services.models.CartItem>()
+        cart.forEach {
+            cartItems.add(
+                com.airstrike.web_services.models.CartItem(
+                    it.shoe.selectedVariantSku+"-"+it.shoeSize.size,
+                    it.quantity)
+            )
+        }
+
+        val customer = SecurePreferencesManager(requireContext()).getObject("loggedInUser", LoggedInUser::class.java) as LoggedInUser
+
+        val order = OrderBody(
+            cartItems,
+            ShippingAddress(selectedShippingAddress.toString(),
+                selectedShippingAddress.streetNumber.toString(),
+                selectedShippingAddress.postalCode.toString(),
+                selectedShippingAddress.city.toString(),
+                selectedShippingAddress.country.toString()
+            ),
+            customer.id,
+            customer.email
+        )
+
+        CreateOrderRequestHandler(order).sendRequest(object : ResponseListener<OrderResponse>{
+            override fun onSuccess(response: OrderResponse) {
+                Toast.makeText(requireContext(),"Order created",Toast.LENGTH_SHORT).show()
+                SecurePreferencesManager(requireContext()).deleteData("cart")
+                startActivity(Intent(requireContext(), ShoppingActivity::class.java))
+            }
+
+            override fun onErrorResponse(response: ErrorResponseBody) {
+                Toast.makeText(requireContext(),"Order creation failed",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onFailure(t: Throwable) {
+                Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun getCartItems(): ArrayList<CartItem>? {
+        return SecurePreferencesManager(requireContext()).getObjects("cart", CartItem::class.java)
     }
 
     override fun notifyAddressAddition(address: Address) {

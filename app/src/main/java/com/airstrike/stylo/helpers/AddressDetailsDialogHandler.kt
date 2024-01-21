@@ -5,7 +5,6 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import com.airstrike.stylo.R
-import com.airstrike.stylo.fragments.CheckoutFragment
 import com.airstrike.stylo.models.Address
 
 class AddressDetailsDialogHandler {

@@ -83,6 +83,7 @@ class GoogleLogin : LoginHandler{
             override fun onSuccess(response: com.airstrike.web_services.models.responses.LoggedInUser) {
                 Log.i("Registered user", response.customer.toString())
                 loginListener.onSuccessfulLogin( com.airstrike.core.authentification.LoggedInUser(
+                    response.customer?.id.toString(),
                     response.status!!,
                     response.success.toString(),
                     response.accessToken!!,
