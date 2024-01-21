@@ -84,6 +84,7 @@ class GoogleLogin : LoginHandler{
                 Log.i("Registered user", response.customer.toString())
                 loginListener.onSuccessfulLogin( com.airstrike.core.authentification.LoggedInUser(
                     response.customer?.id.toString(),
+                    response.customer?.version!!,
                     response.status!!,
                     response.success.toString(),
                     response.accessToken!!,

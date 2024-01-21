@@ -28,16 +28,18 @@ import com.airstrike.stylo.listeners.AddressSelectionListener
 import com.airstrike.stylo.listeners.PaymentOutcomeListener
 import com.airstrike.stylo.models.Address
 import com.airstrike.stylo.models.CartItem
+import com.airstrike.web_services.models.AddAddressRequestBody
 import com.airstrike.web_services.models.OrderBody
 import com.airstrike.web_services.models.ShippingAddress
+import com.airstrike.web_services.models.responses.AddedAddress
 import com.airstrike.web_services.models.responses.CustomersAddresses
 import com.airstrike.web_services.models.responses.JWT
 import com.airstrike.web_services.models.responses.OrderResponse
+import com.airstrike.web_services.network.request_handler.AddAddressRequestHandler
 import com.airstrike.web_services.network.request_handler.AddressesRequestHandler
 import com.airstrike.web_services.network.request_handler.CreateOrderRequestHandler
 import com.airstrike.web_services.network.request_handler.JwtRequestHandler
-import org.json.JSONArray
-import org.json.JSONObject
+
 
 
 class CheckoutFragment : Fragment(), AddressChangeListener {
@@ -54,6 +56,7 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
     private lateinit var paymentManager : PaymentManager
     private lateinit var payBtn : Button
     private  var fragmentTag : String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +85,7 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
         shippingAddressesRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         shippingAddressesRv.adapter =
-            AddressesAdapter(addresses, object : AddressSelectionListener {
+            AddressesAdapter(addresses,object : AddressSelectionListener {
                 override fun notifyAddressSelectionChanged(address: Address) {
                     selectedShippingAddress = address
                     Log.i("shipping", selectedShippingAddress.toString())
@@ -129,6 +132,7 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
             positiveButton.setOnClickListener {
 
                 if (addressDialogHandler.checkIfRequiredDataIsProvided() == true) {
+                    addressDialogHandler.addNewCustomerAddressOnBackend()
                     notifyAddressAddition(addressDialogHandler.getAddress())
                     alertDialog.dismiss()
                 } else {
@@ -208,8 +212,9 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
 
             override fun onErrorResponse(response: ErrorResponseBody) {
                 response.error?.let { error ->
-                    Toast.makeText(requireContext(), "Error getting hero image", Toast.LENGTH_LONG)
+                    Toast.makeText(requireContext(), "Errro getting customer address", Toast.LENGTH_LONG)
                         .show()
+                    Log.i("addressError",error)
                 }
             }
 
@@ -249,11 +254,17 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
             )
         }
 
-        val customer = SecurePreferencesManager(requireContext()).getObject("loggedInUser", LoggedInUser::class.java) as LoggedInUser
+        val customer = SecurePreferencesManager(requireContext()).getObject("loggedInUser", com.airstrike.core.authentification.LoggedInUser::class.java) as com.airstrike.core.authentification.LoggedInUser
+
 
         val order = OrderBody(
             cartItems,
-            ShippingAddress(selectedShippingAddress.toString(),
+            ShippingAddress(
+                selectedShippingAddress.firstName.toString(),
+                selectedShippingAddress.lastName.toString(),
+                selectedShippingAddress.additionalStreetInfo.toString(),
+                selectedShippingAddress.phone.toString(),
+                selectedShippingAddress.toString(),
                 selectedShippingAddress.streetNumber.toString(),
                 selectedShippingAddress.postalCode.toString(),
                 selectedShippingAddress.city.toString(),
@@ -285,7 +296,8 @@ class CheckoutFragment : Fragment(), AddressChangeListener {
     }
 
     override fun notifyAddressAddition(address: Address) {
-        addresses.add(0, address)
+        getCustomerAddresses("")
+        //addresses.add(0, address)
         shippingAddressesRv.adapter?.notifyDataSetChanged()
         billingAddressesRv.adapter?.notifyDataSetChanged()
         //Send data to server

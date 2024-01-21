@@ -76,6 +76,7 @@ class EmailPasswordLogin : LoginHandler {
                 Log.i("Logged in user",response.toString())
                 val user = com.airstrike.core.authentification.LoggedInUser(
                         response.customer?.id.toString(),
+                        response.customer?.version!!,
                         response.status!!,
                         response.success.toString(),
                         response.accessToken!!,
