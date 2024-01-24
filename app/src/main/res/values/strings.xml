@@ -41,6 +41,7 @@
     <string name="additional_address_info">Adittional address information</string>
     <string name="missing_addres_data">You need to fill all required  fields</string>
     <string name="chose_country">Select country</string>
+    <string name="pay">Pay</string>
 
 
 </resources>

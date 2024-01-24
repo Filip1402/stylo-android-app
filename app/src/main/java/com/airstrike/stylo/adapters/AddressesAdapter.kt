@@ -64,6 +64,7 @@ class AddressesAdapter(private val addresses: MutableList<Address>, private val 
 
                     if(addressDialogHandler.checkIfRequiredDataIsProvided() == true)
                     {
+                        addressDialogHandler.updateCustomerAddressOnBackend()
                         addressAdditionListener.notifyAddressUpdate(address,addressDialogHandler.getAddress())
                         notifyDataSetChanged();
                         alertDialog.dismiss()

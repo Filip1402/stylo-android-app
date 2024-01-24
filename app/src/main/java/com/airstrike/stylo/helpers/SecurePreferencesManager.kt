@@ -47,6 +47,12 @@ class SecurePreferencesManager(context : Context) {
         editor.putString(key, value)
         editor.apply()
     }
+    fun deleteData(key: String)
+    {
+        val editor = sharedPreferences.edit()
+        editor.remove(key)
+        editor.apply()
+    }
 
     // Function to retrieve data from EncryptedSharedPreferences
     fun getData(key: String): String? {

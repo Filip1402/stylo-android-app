@@ -41,5 +41,6 @@
     <string name="additional_address_info">Dodatni podaci o adresi</string>
     <string name="missing_addres_data">Unesite sva obavezna polja</string>
     <string name="chose_country">Odaberi zemlju</string>
+    <string name="pay">Plati</string>
 
 </resources>
