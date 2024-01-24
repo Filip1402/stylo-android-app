@@ -29,6 +29,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 
@@ -44,6 +47,14 @@ dependencies {
     implementation 'androidx.core:core-ktx:+'
     implementation project(path: ':authentication_email_password')
     implementation project(path: ':authentication_google')
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
+    implementation "androidx.security:security-crypto:1.0.0"
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.stripe:stripe-android:20.36.1'
+    implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
+    implementation 'com.github.kittinunf.fuel:fuel-json:2.3.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

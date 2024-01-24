@@ -7,6 +7,8 @@ open class RegisteredUser(
 
 )
 data class Customer(
+    @SerializedName("id") var id: String? = null,
+    @SerializedName("version") var version: Int? = 0,
     @SerializedName("email") var email: String? = null,
     @SerializedName("firstName") var firstName: String? = null,
     @SerializedName("lastName") var lastName: String? = null,

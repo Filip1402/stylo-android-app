@@ -14,7 +14,7 @@ import com.airstrike.core.authentification.network.ResponseListener
 import com.airstrike.core.authentification.network.models.ErrorResponseBody
 import com.airstrike.registration_google.R
 import com.airstrike.web_services.models.LoginBody
-import com.airstrike.web_services.request_handler.LoginRequestHandler
+import com.airstrike.web_services.network.request_handler.LoginRequestHandler
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -83,6 +83,8 @@ class GoogleLogin : LoginHandler{
             override fun onSuccess(response: com.airstrike.web_services.models.responses.LoggedInUser) {
                 Log.i("Registered user", response.customer.toString())
                 loginListener.onSuccessfulLogin( com.airstrike.core.authentification.LoggedInUser(
+                    response.customer?.id.toString(),
+                    response.customer?.version!!,
                     response.status!!,
                     response.success.toString(),
                     response.accessToken!!,

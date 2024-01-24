@@ -1,5 +1,6 @@
 package com.airstrike.stylo.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,8 @@ import com.airstrike.core.authentification.LoginHandler
 import com.airstrike.core.authentification.LoginListener
 import com.airstrike.stylo.AuthenticationActivity
 import com.airstrike.stylo.R
+import com.airstrike.stylo.ShoppingActivity
+import com.airstrike.stylo.helpers.SecurePreferencesManager
 
 class LoginFragment : Fragment(), LoginListener {
 
@@ -44,10 +47,18 @@ class LoginFragment : Fragment(), LoginListener {
             (requireActivity() as AuthenticationActivity).loadFragment(RegistrationFragment())
         }
     }
-
+    private fun redirectToHomepage()
+    {
+        val intent = Intent(this.context, ShoppingActivity::class.java)
+        //intent.putExtra("user",user);
+        startActivity(intent)
+    }
     override fun onSuccessfulLogin(loggedInUser: LoggedInUser) {
             Toast.makeText(this.context, R.string.successful_log_in, Toast.LENGTH_LONG).show()
-
+            val securePreferencesManager = SecurePreferencesManager(this.requireContext())
+            loggedInUser.password = "" //dont store the password
+            securePreferencesManager.saveObject("loggedInUser",loggedInUser)
+            redirectToHomepage()
     }
     override fun onFailedLogin(reason: String) {
         Toast.makeText(context, reason,Toast.LENGTH_LONG).show()

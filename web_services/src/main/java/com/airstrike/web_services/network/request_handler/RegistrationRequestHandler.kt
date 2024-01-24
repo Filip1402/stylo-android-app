@@ -1,4 +1,4 @@
-package com.airstrike.web_services.request_handler
+package com.airstrike.web_services.network.request_handler
 
 import com.airstrike.web_services.models.RegistrationBody
 import com.airstrike.web_services.models.responses.RegisteredUser
